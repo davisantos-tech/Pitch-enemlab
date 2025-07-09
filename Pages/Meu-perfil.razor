@@ -1,0 +1,174 @@
+﻿@page "/meu-perfil"
+
+@* O NavMenu aqui pode causar problemas de layout se não for parte de um Layout principal. 
+   Considere mover o <NavMenu> para o seu arquivo MainLayout.razor se ele ainda não estiver lá. *@
+<NavMenu></NavMenu> 
+<PageTitle>Painel do Aluno</PageTitle>
+
+<div class="profile-page-container">
+    <h1>PAINEL DO ALUNO</h1>
+
+    @if (isLoading)
+    {
+        <p>Carregando...</p>
+    }
+    else if (profile != null)
+    {
+        @if (!isEditing)
+        {
+            <div class="profile-header-card">
+                <div class="picture-container">
+                    <img src="@profile.ProfilePictureUrl" alt="Foto de Perfil" />
+                </div>
+                <div class="info-container">
+                    <h2>@profile.FullName</h2>
+                    <p><strong>Nível:</strong> @profile.Level</p>
+                    <p><strong>Email:</strong> @profile.Email</p>
+                    <p><strong>Escolaridade:</strong> @profile.EducationLevel</p>
+                </div>
+                <div class="action-container">
+                    <button class="edit-btn" @onclick="EnterEditMode">Editar Perfil</button>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="profile-header-card edit-form">
+                <div class="picture-container">
+                    <img src="@profileToEdit.ProfilePictureUrl" alt="Foto de Perfil" />
+                </div>
+                <div class="info-container form-fields">
+                    <label>Nome:</label>
+                    <input @bind="profileToEdit.FirstName" />
+
+                    <label>Sobrenome:</label>
+                    <input @bind="profileToEdit.LastName" />
+                    
+                    <p class="readonly-field"><strong>Nível:</strong> @profileToEdit.Level</p>
+
+                    <label>Email:</label>
+                    <input @bind="profileToEdit.Email" />
+
+                    <p class="readonly-field"><strong>Escolaridade:</strong> @profileToEdit.EducationLevel</p>
+
+                    <label>URL da Foto:</label>
+                    <input @bind="profileToEdit.ProfilePictureUrl" />
+                </div>
+                <div class="action-container edit-buttons">
+                    <button class="save-btn" @onclick="SaveChanges">Salvar</button>
+                    <button class="cancel-btn" @onclick="CancelEdit">Cancelar</button>
+                </div>
+            </div>
+        }
+
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-value">@profile.QuestionsDone</span>
+                <span class="stat-label">📖 Questões Efetuadas</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">@profile.AchievementsCount</span>
+                <span class="stat-label">☆ Conquistas</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">@profile.StudyHours</span>
+                <span class="stat-label">🕒 Estudo</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value">@profile.TotalPoints.ToString("N0")</span>
+                <span class="stat-label">✨ Pontos Totais</span>
+            </div>
+        </div>
+    }
+</div>
+
+
+@code {
+    private UserProfile? profile;
+    private bool isLoading = true;
+
+    private bool isEditing = false;
+    private UserProfile? profileToEdit;
+
+    // --- CLASSE UserProfile ATUALIZADA ---
+    public class UserProfile
+    {
+        // O campo 'Name' foi substituído por FirstName e LastName
+        public string FirstName { get; set; } = "";
+        public string LastName { get; set; } = "";
+        
+        // Nova propriedade computada para exibir o nome completo facilmente
+        public string FullName => $"{FirstName} {LastName}";
+
+        public string Email { get; set; } = "";
+        public string Level { get; set; } = "";
+        public string EducationLevel { get; set; } = "";
+        public string ProfilePictureUrl { get; set; } = "";
+        public int QuestionsDone { get; set; }
+        public int AchievementsCount { get; set; }
+        public string StudyHours { get; set; } = "";
+        public int TotalPoints { get; set; }
+
+        public UserProfile() { }
+
+        // Construtor de cópia também atualizado
+        public UserProfile(UserProfile other)
+        {
+            FirstName = other.FirstName;
+            LastName = other.LastName;
+            Email = other.Email;
+            Level = other.Level;
+            EducationLevel = other.EducationLevel;
+            ProfilePictureUrl = other.ProfilePictureUrl;
+            QuestionsDone = other.QuestionsDone;
+            AchievementsCount = other.AchievementsCount;
+            StudyHours = other.StudyHours;
+            TotalPoints = other.TotalPoints;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        await Task.Delay(500);
+
+        // Dados de exemplo atualizados para usar FirstName e LastName
+        profile = new UserProfile
+        {
+            FirstName = "João",
+            LastName = "Santos",
+            Email = "joao.santos.dev@gmail.com",
+            Level = "Intermediário",
+            EducationLevel = "3º Ano",
+            ProfilePictureUrl = "https://i.pravatar.cc/150?u=joaosantos",
+            QuestionsDone = 230,
+            AchievementsCount = 12,
+            StudyHours = "15h",
+            TotalPoints = 150630
+        };
+        isLoading = false;
+    }
+
+    private void EnterEditMode()
+    {
+        profileToEdit = new UserProfile(profile);
+        isEditing = true;
+    }
+
+    private async Task SaveChanges()
+    {
+        isLoading = true;
+        await Task.Delay(300);
+
+        profile = new UserProfile(profileToEdit);
+        isEditing = false;
+        isLoading = false;
+    }
+
+    private void CancelEdit()
+    {
+        isEditing = false;
+        profileToEdit = null;
+    }
+}

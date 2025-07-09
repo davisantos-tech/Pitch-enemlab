@@ -1,0 +1,62 @@
+﻿@page "/questoes-gerais"
+
+<PageTitle>Questões Gerais - EnemLab</PageTitle>
+<NavMenu></NavMenu>
+
+<main class="questoes-container">
+    <h1>Questões por Área</h1>
+    <p class="subtitle">Escolha uma área do conhecimento para iniciar seu treino.</p>
+
+    <div class="grid-questoes">
+        <div class="questao-card locked" @onclick="() => isModalVisible = true">
+            <div class="card-icon-wrapper">
+                <img src="imgs/homes/livro-cads.png" alt="Linguagens">
+            </div>
+            <h2>Linguagens e suas Tecnologias</h2>
+        </div>
+
+        <NavLink href="/questoes" class="card-link">
+            <div class="questao-card">
+                <div class="card-icon-wrapper">
+                    <img src="imgs/questão/mat-questoes.png" alt="Matemática">
+                </div>
+                <h2>Matemática e suas Tecnologias</h2>
+            </div>
+        </NavLink>
+
+        <div class="questao-card locked" @onclick="() => isModalVisible = true">
+            <div class="card-icon-wrapper">
+                <img src="imgs/questão/cie-questoes.png" alt="Humanas">
+            </div>
+            <h2>Ciências Humanas e suas Tecnologias</h2>
+        </div>
+
+        <div class="questao-card locked" @onclick="() => isModalVisible = true">
+            <div class="card-icon-wrapper">
+                <img src="imgs/questão/ciena-questoes.png" alt="Natureza">
+            </div>
+            <h2>Ciências da Natureza e suas Tecnologias</h2>
+        </div>
+    </div>
+</main>
+
+@if (isModalVisible)
+{
+    <div class="modal-backdrop" @onclick="() => isModalVisible = false">
+        <div class="modal-content" @onclick:stopPropagation>
+            <span class="modal-icon">🚧</span>
+            <h3>Em Desenvolvimento</h3>
+            <p>Esta área ainda não está disponível. Apenas Matemática está liberada para treino no momento.</p>
+            <button class="modal-btn" @onclick="() => isModalVisible = false">Entendi</button>
+        </div>
+    </div>
+}
+
+@code {
+    private bool isModalVisible = false;
+
+    private void ShowLockedModal()
+    {
+        isModalVisible = true;
+    }
+}

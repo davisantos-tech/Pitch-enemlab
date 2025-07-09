@@ -1,0 +1,379 @@
+﻿@page "/questoes"
+@inject NavigationManager Nav
+@implements IDisposable
+
+<PageTitle>Treino Avançado - EnemLab</PageTitle>
+
+<div class="page-container @(menuLateralAberto ? "sidebar-visible" : "")">
+
+    <button class="menu-toggle-btn @(menuLateralAberto ? "hidden" : "")" @onclick="AlternarMenuLateral">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" /></svg>
+    </button>
+
+    <aside class="sidebar-menu">
+        <header class="sidebar-header">
+            <span class="logo">EnemLab 🚀</span>
+            <button class="sidebar-toggle-btn" @onclick="AlternarMenuLateral">
+                <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg>
+            </button>
+        </header>
+
+        <nav class="main-nav">
+            <NavLink href="/" Match="NavLinkMatch.All" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" /></svg>
+                <span class="nav-text">Início</span>
+            </NavLink>
+
+            <NavLink href="/questoes" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M18,22A2,2 0 0,0 20,20V4C20,2.89 19.1,2 18,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18M11,4H13V16L11,18V4Z" /></svg>
+                <span class="nav-text">Questões</span>
+            </NavLink>
+
+            <NavLink href="/provas" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M5,21V3H19V21H5M7,5V19H17V5H7M9,7H15V9H9V7M9,11H13V13H9V11Z" /></svg>
+                <span class="nav-text">Provas</span>
+            </NavLink>
+
+            <NavLink href="/desempenho" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z" /></svg>
+                <span class="nav-text">Desempenho</span>
+            </NavLink>
+
+            <NavLink href="/meu-perfil" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" /></svg>
+                <span class="nav-text">Perfil</span>
+            </NavLink>
+        </nav>
+    </aside>
+
+    <div class="main-content">
+        <header class="main-header">
+            <div class="question-navigator">
+                <div class="navigator-grid">
+                    @for (int i = 0; i < questoes.Count; i++)
+                    {
+                        var indiceQuestao = i;
+                        var q = questoes[indiceQuestao];
+                        var classeStatus = "";
+                        if (q.FoiRespondida)
+                        {
+                            classeStatus = q.IndiceSelecionadoPeloUsuario == q.IndiceRespostaCorreta ? "correct" : "incorrect";
+                        }
+                        if (indiceQuestao == indiceAtual)
+                        {
+                            classeStatus += " current";
+                        }
+                        <button class="nav-q-btn @classeStatus" @onclick="() => IrParaQuestao(indiceQuestao)">
+                            @(indiceQuestao + 1)
+                        </button>
+                    }
+                </div>
+            </div>
+        </header>
+
+        @if (questaoAtual != null)
+        {
+            <div class="question-area @classeAnimacaoQuestao">
+                <div class="question-header">
+                    <div class="question-title">
+                        <h3>Questão @(indiceAtual + 1)</h3>
+                        <div class="tags">
+                            <span class="tag tag-subject">@questaoAtual.Materia</span>
+                            <span class="tag @($"tag-{questaoAtual.Dificuldade.ToString().ToLower()}")">@questaoAtual.Dificuldade</span>
+                        </div>
+                    </div>
+                    <div class="progress-info">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: @( ((double)questoesRespondidas / questoes.Count) * 100 )%;"></div>
+                        </div>
+                        <span class="progress-text">@questoesRespondidas @(questoesRespondidas == 1 ? "Questão Resolvida" : "Questões Resolvidas")</span>
+                    </div>
+                    @if (questaoAtual.FoiRespondida)
+                    {
+                        <span class="status-badge @(questaoAtual.IndiceSelecionadoPeloUsuario == questaoAtual.IndiceRespostaCorreta ? "correct" : "incorrect")">
+                            @(questaoAtual.IndiceSelecionadoPeloUsuario == questaoAtual.IndiceRespostaCorreta ? "Correta" : "Incorreta")
+                        </span>
+                    }
+                </div>
+
+                <div class="question-body">
+                    @if (!string.IsNullOrEmpty(questaoAtual.UrlImagem))
+                    {
+                        <div class="question-image">
+                            <img src="@questaoAtual.UrlImagem" alt="Imagem da questão" />
+                        </div>
+                    }
+                    <p class="question-statement">@questaoAtual.Enunciado</p>
+                </div>
+
+                <div class="options-grid">
+                    @for (int i = 0; i < questaoAtual.Opcoes.Count; i++)
+                    {
+                        var indiceOpcao = i;
+                        <button class="option-card @ObterClasseParaOpcao(indiceOpcao)" @onclick="() => ProcessarCliqueNaOpcao(indiceOpcao)" disabled="@(questaoAtual.FoiRespondida && !EhOpcaoRelevante(indiceOpcao))">
+                            <span class="option-letter">@( (char)('A' + indiceOpcao) )</span>
+                            <span class="option-text">@questaoAtual.Opcoes[i]</span>
+                        </button>
+                    }
+                </div>
+            </div>
+
+            <footer class="main-footer">
+                <button class="footer-btn secondary" @onclick="QuestaoAnterior" disabled="@(indiceAtual == 0)">
+                    Anterior
+                </button>
+
+                <div class="action-buttons">
+                    <button class="action-btn @(modoRascunhoAtivo ? "active" : "")" @onclick="AlternarModoRascunho" disabled="@questaoAtual.FoiRespondida">✏️ Rabiscar</button>
+                    @if (questaoAtual.FoiRespondida)
+                    {
+                        <button class="action-btn" @onclick="AlternarVisibilidadeGabarito">👁️ @(questaoAtual.GabaritoEstaVisivel ? "Ocultar" : "Ver") Gabarito</button>
+                        <button class="action-btn solution" @onclick="() => modalSolucaoEstaAberto = true">🤖 Ver Resolução</button>
+                    }
+                    else
+                    {
+                        <button class="action-btn confirm" @onclick="ConfirmarResposta" disabled="@(questaoAtual.IndiceSelecionadoPeloUsuario == null)">Confirmar</button>
+                    }
+                </div>
+
+                <button class="footer-btn primary" @onclick="ProximaQuestao" disabled="@(indiceAtual == questoes.Count - 1)">
+                    Próxima
+                </button>
+            </footer>
+        }
+        else
+        {
+            <div class="loading-questions">
+                <p>Carregando questões...</p>
+            </div>
+        }
+    </div>
+</div>
+
+@if (modalSolucaoEstaAberto && questaoAtual != null)
+{
+    <div class="modal-overlay" @onclick="() => modalSolucaoEstaAberto = false">
+        <div class="modal-dialog" @onclick:stopPropagation>
+            <header class="modal-header">
+                <h4>Análise da Questão</h4>
+                <button class="close-modal-btn" @onclick="() => modalSolucaoEstaAberto = false">&times;</button>
+            </header>
+            <div class="modal-body">
+                <p>@questaoAtual.TextoSolucao</p>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    // Variável para controlar o estado do menu
+    private bool menuLateralAberto = true;
+
+    // Método para abrir/fechar o menu
+    private void AlternarMenuLateral()
+    {
+        menuLateralAberto = !menuLateralAberto;
+    }
+
+    public enum NivelDificuldade { Fácil, Médio, Difícil }
+
+    public class QuestaoExercicio
+    {
+        public int Id { get; set; }
+        public string Enunciado { get; set; } = "";
+        public string Materia { get; set; } = "Conhecimentos Gerais";
+        public NivelDificuldade Dificuldade { get; set; } = NivelDificuldade.Médio;
+        public string? UrlImagem { get; set; }
+        public List<string> Opcoes { get; set; } = new();
+        public int IndiceRespostaCorreta { get; set; }
+        public string TextoSolucao { get; set; } = "";
+        public int? IndiceSelecionadoPeloUsuario { get; set; }
+        public bool FoiRespondida { get; set; }
+        public bool GabaritoEstaVisivel { get; set; }
+        public HashSet<int> OpcoesEliminadas { get; set; } = new();
+    }
+
+    private List<QuestaoExercicio> questoes = new();
+    private QuestaoExercicio? questaoAtual;
+    private int indiceAtual = 0;
+    private bool modalSolucaoEstaAberto = false;
+    private bool modoRascunhoAtivo = false;
+    private string classeAnimacaoQuestao = "enter";
+
+    private int questoesRespondidas => questoes.Count(q => q.FoiRespondida);
+
+    protected override void OnInitialized()
+    {
+        questoes = GerarQuestoesFicticias(12);
+        questaoAtual = questoes.FirstOrDefault();
+    }
+
+    private void ProcessarCliqueNaOpcao(int indiceOpcao)
+    {
+        if (questaoAtual == null || questaoAtual.FoiRespondida) return;
+
+        if (modoRascunhoAtivo)
+        {
+            if (questaoAtual.OpcoesEliminadas.Contains(indiceOpcao))
+            {
+                questaoAtual.OpcoesEliminadas.Remove(indiceOpcao);
+            }
+            else if (questaoAtual.OpcoesEliminadas.Count < 4)
+            {
+                if (questaoAtual.IndiceSelecionadoPeloUsuario != indiceOpcao)
+                {
+                    questaoAtual.OpcoesEliminadas.Add(indiceOpcao);
+                }
+            }
+        }
+        else
+        {
+            if (questaoAtual.IndiceSelecionadoPeloUsuario == indiceOpcao)
+            {
+                questaoAtual.IndiceSelecionadoPeloUsuario = null;
+            }
+            else if (!questaoAtual.OpcoesEliminadas.Contains(indiceOpcao))
+            {
+                questaoAtual.IndiceSelecionadoPeloUsuario = indiceOpcao;
+            }
+        }
+    }
+
+    private string ObterClasseParaOpcao(int indiceOpcao)
+    {
+        if (questaoAtual == null) return "";
+        var classes = new List<string>();
+
+        if (modoRascunhoAtivo && !questaoAtual.FoiRespondida) classes.Add("elimination-mode");
+        if (questaoAtual.OpcoesEliminadas.Contains(indiceOpcao)) classes.Add("eliminated");
+
+        if (questaoAtual.FoiRespondida)
+        {
+            bool ehSelecaoDoUsuario = indiceOpcao == questaoAtual.IndiceSelecionadoPeloUsuario;
+            bool ehRespostaCerta = indiceOpcao == questaoAtual.IndiceRespostaCorreta;
+
+            if (questaoAtual.GabaritoEstaVisivel)
+            {
+                if (ehRespostaCerta)
+                {
+                    classes.Add("correct");
+                }
+                else if (ehSelecaoDoUsuario)
+                {
+                    classes.Add("incorrect");
+                }
+            }
+            else
+            {
+                if (ehSelecaoDoUsuario)
+                {
+                    classes.Add(ehRespostaCerta ? "correct" : "incorrect");
+                }
+            }
+        }
+        else if (indiceOpcao == questaoAtual.IndiceSelecionadoPeloUsuario)
+        {
+            classes.Add("selected");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    private bool EhOpcaoRelevante(int indiceOpcao)
+    {
+        if (questaoAtual == null) return false;
+        return (questaoAtual.GabaritoEstaVisivel && indiceOpcao == questaoAtual.IndiceRespostaCorreta) ||
+               indiceOpcao == questaoAtual.IndiceSelecionadoPeloUsuario;
+    }
+
+    private void ConfirmarResposta()
+    {
+        if (questaoAtual != null && questaoAtual.IndiceSelecionadoPeloUsuario != null)
+        {
+            questaoAtual.FoiRespondida = true;
+            modoRascunhoAtivo = false;
+        }
+    }
+
+    private void AlternarVisibilidadeGabarito()
+    {
+        if (questaoAtual != null && questaoAtual.FoiRespondida)
+        {
+            questaoAtual.GabaritoEstaVisivel = !questaoAtual.GabaritoEstaVisivel;
+        }
+    }
+
+    private void AlternarModoRascunho()
+    {
+        if (questaoAtual?.FoiRespondida == false)
+        {
+            modoRascunhoAtivo = !modoRascunhoAtivo;
+        }
+    }
+
+    private async Task AnimarEMudarQuestao(Func<Task> acaoDeMudar)
+    {
+        classeAnimacaoQuestao = "exit";
+        await Task.Delay(150);
+        await acaoDeMudar();
+        classeAnimacaoQuestao = "enter";
+        StateHasChanged();
+    }
+
+    private async Task ProximaQuestao() => await AnimarEMudarQuestao(async () =>
+    {
+        if (indiceAtual < questoes.Count - 1)
+        {
+            indiceAtual++;
+            questaoAtual = questoes[indiceAtual];
+        }
+    });
+
+    private async Task QuestaoAnterior() => await AnimarEMudarQuestao(async () =>
+    {
+        if (indiceAtual > 0)
+        {
+            indiceAtual--;
+            questaoAtual = questoes[indiceAtual];
+        }
+    });
+
+    private async Task IrParaQuestao(int indice) => await AnimarEMudarQuestao(async () =>
+    {
+        if (indice >= 0 && indice < questoes.Count)
+        {
+            indiceAtual = indice;
+            questaoAtual = questoes[indice];
+        }
+    });
+
+    private List<QuestaoExercicio> GerarQuestoesFicticias(int quantidade)
+    {
+        var lista = new List<QuestaoExercicio>();
+        var random = new Random();
+        var materias = new[] { "Matemática", "Biologia", "História", "Geografia", "Física", "Química" };
+
+        for (int i = 1; i <= quantidade; i++)
+        {
+            lista.Add(new QuestaoExercicio
+            {
+                Id = i,
+                UrlImagem = (i % 3 == 0) ? $"https://picsum.photos/seed/enem{i}/800/400" : null,
+                Enunciado = $"Este é o enunciado da questão de treino nº {i} sobre um tópico relevante...",
+                Materia = materias[random.Next(materias.Length)],
+                Dificuldade = (NivelDificuldade)random.Next(3),
+                Opcoes = new List<string>
+                {
+                    $"Alternativa A...", $"Alternativa B...", $"Alternativa C...", $"Alternativa D...", $"Alternativa E..."
+                },
+                IndiceRespostaCorreta = random.Next(0, 5),
+                TextoSolucao = $"A resolução para a questão {i} exige a compreensão de um conceito chave..."
+            });
+        }
+        return lista;
+    }
+
+    public void Dispose() { }
+}
+
+

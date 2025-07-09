@@ -1,0 +1,186 @@
+﻿/* --- LAYOUT GERAL E ANIMAÇÃO DE ENTRADA --- */
+.painel-desempenho {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Animação de entrada para todos os cards */
+.painel-header, .box, .aproveitamento-geral {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+    /* Atraso escalonado na animação para um efeito mais suave */
+    .box:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .box:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .box:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+.aproveitamento-geral {
+    animation-delay: 0.4s;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- CABEÇALHO --- */
+.painel-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+    .painel-header h1 {
+        font-size: 2.5em;
+        font-weight: 800;
+        color: #3d3d5c;
+        margin: 0;
+    }
+
+    .painel-header p {
+        font-size: 1.1em;
+        color: #7a7a9a;
+        margin-top: 5px;
+    }
+
+/* --- CARDS DE INFO --- */
+.info-boxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.box {
+    background: linear-gradient(145deg, #ffffff, #f9f9ff);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(100, 100, 150, 0.1);
+    border: 1px solid #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: left;
+}
+
+    .box:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(100, 100, 150, 0.15);
+    }
+
+    .box p {
+        font-weight: 600;
+        color: #3d3d5c;
+        text-transform: uppercase;
+        font-size: 0.9em;
+        margin: 0 0 15px 0;
+    }
+
+    .box .stars, .box .acertos-erros, .box .medalha {
+        font-size: 2em;
+        font-weight: 700;
+    }
+
+    .box .stars {
+        color: #ffc107;
+    }
+
+    .box .acerto {
+        color: #20c997;
+        margin-right: 15px;
+    }
+
+    .box .erro {
+        color: #fd7e14;
+    }
+
+    .box .medalha.ouro {
+        background: linear-gradient(45deg, #ffc107, #ff9800);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 1.5em;
+        padding: 0;
+    }
+
+/* --- NOVA SEÇÃO DE APROVEITAMENTO GERAL --- */
+.aproveitamento-geral {
+    background: linear-gradient(145deg, #ffffff, #f9f9ff);
+    margin-top: 40px;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(100, 100, 150, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+    .aproveitamento-geral h2 {
+        margin: 0 0 15px 0;
+        color: #3d3d5c;
+        font-size: 1.5em;
+    }
+
+.legenda-grafico {
+    font-weight: 600;
+    color: #7a7a9a;
+}
+
+/* Gráfico de Rosca (PURO CSS) */
+@property --percent {
+    syntax: '<integer>';
+    inherits: false;
+    initial-value: 0;
+}
+
+.donut-chart {
+    --percent: 0; /* Será substituído pelo style inline */
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: conic-gradient(#5352ed calc(var(--percent) * 1%), #e6e6fa 0);
+    animation: drawDonut 1.2s ease-out forwards;
+}
+
+.donut-center-text {
+    background: #fff;
+    width: 85%;
+    height: 85%;
+    border-radius: 50%;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.05);
+    display: grid;
+    place-items: center;
+    font-size: 2.2em;
+    font-weight: 700;
+    color: #5352ed;
+}
+
+@keyframes drawDonut {
+    from {
+        --percent: 0;
+    }
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 768px) {
+    .info-boxes {
+        grid-template-columns: 1fr;
+    }
+
+    .painel-desempenho {
+        padding: 20px;
+    }
+}

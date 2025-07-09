@@ -1,0 +1,250 @@
+﻿
+/* --- CONTAINER PRINCIPAL (TELA CHEIA, SEM ROLAGEM) --- */
+.questoes-container {
+    width: 100%;
+    /* Ocupa a altura da tela, descontando a altura aproximada do seu NavMenu */
+    padding: 2rem;
+    font-family: 'Poppins', sans-serif;
+    /* Centraliza todo o conteúdo verticalmente e horizontalmente */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 1s ease-out;
+}
+
+
+
+
+
+    .questoes-container h1 {
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 800;
+        color: #2c3e50;
+    }
+
+    .questoes-container .subtitle {
+        font-size: clamp(1rem, 2.5vw, 1.25rem);
+        color: #576c7f;
+        margin-top: 5px;
+        margin-bottom: 40px;
+    }
+
+/* --- GRADE 2x2 PARA OS CARDS --- */
+.grid-questoes {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Exatamente duas colunas */
+    gap: 2.5rem;
+    width: 100%;
+    max-width: 900px;
+}
+
+/* --- ESTILO DOS CARDS DE SELEÇÃO --- */
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.questao-card {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-height: 150px; /* Usar min-height para mais flexibilidade */
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(44, 62, 80, 0.1);
+    transition: all 0.3s ease-out;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideInUp 0.6s ease-out forwards;
+}
+
+/* Animação de entrada escalonada */
+.grid-questoes > *:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.grid-questoes > *:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.grid-questoes > *:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.grid-questoes > *:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.questao-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 20px 40px rgba(138, 43, 226, 0.2);
+}
+
+.card-icon-wrapper {
+    background: linear-gradient(135deg, #f3e8ff, #e4effb);
+    border-radius: 16px;
+    width: 70px;
+    height: 70px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+}
+
+.questao-card img {
+    width: 40px;
+    height: 40px;
+}
+
+.questao-card h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: left;
+}
+
+.locked {
+    position: relative;
+    opacity: 0.5;
+}
+
+    .locked:hover {
+        transform: none;
+        box-shadow: 0 10px 30px rgba(44, 62, 80, 0.1);
+    }
+
+    .locked::after {
+        content: "🔒";
+        font-size: 1.5rem;
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+
+/* --- MODAIS --- */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 20, 40, 0.5);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    animation: popup 0.4s ease-out;
+}
+
+.modal-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.modal-content h3 {
+    font-size: 1.6rem;
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+.modal-content p {
+    color: #576c7f;
+    font-size: 1rem;
+    margin: 1rem 0 2rem 0;
+}
+
+.modal-btn {
+    background: #8a2be2;
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    border: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+    .modal-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(138, 43, 226, 0.4);
+    }
+
+/* --- RESPONSIVIDADE (COM A CORREÇÃO) --- */
+@media (max-width: 960px) {
+    .questoes-container {
+        display: block; /* <<-- MUDANÇA PRINCIPAL: Volta ao fluxo normal de página */
+        min-height: auto; /* Permite que a página cresça e tenha rolagem */
+        padding: 40px 20px; /* Garante um bom espaçamento */
+    }
+
+    .grid-questoes {
+        grid-template-columns: 1fr; /* Uma coluna para tablets e celulares */
+        max-width: 450px; /* Limita a largura dos cards em telas maiores de celular */
+        margin: 0 auto; /* Centraliza a coluna única */
+    }
+}
+
+/* --- ANIMAÇÕES --- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes popup {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

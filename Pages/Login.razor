@@ -1,0 +1,249 @@
+﻿@page "/login"
+@inject NavigationManager NavigationManager
+@using System.ComponentModel.DataAnnotations
+
+<PageTitle>@(isRegistering ? "Cadastro" : "Login") - nemLab</PageTitle>
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-logo">
+            <svg class="logo-svg-icon" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8.016 24.5H28V5.83334C28 5.12609 27.719 4.44782 27.219 3.94772C26.7189 3.44762 26.0406 3.16667 25.3333 3.16667H8C6.392 3.16667 4 4.23201 4 7.16667V25.8333C4 28.768 6.392 29.8333 8 29.8333H28V27.1667H8.016C7.4 27.1507 6.66667 26.9067 6.66667 25.8333C6.66667 24.76 7.4 24.516 8.016 24.5ZM10.6667 8.5H22.6667V11.1667H10.6667V8.5Z" fill="currentColor" />
+            </svg>
+            <h1>nemLab</h1>
+        </div>
+
+        @if (!isRegistering)
+        {
+            <h2>Bem-vindo de volta!</h2>
+            <p class="subtitle">Entre na sua conta para continuar.</p>
+            <EditForm Model="loginModel" OnValidSubmit="HandleLoginSubmit">
+                <DataAnnotationsValidator />
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <InputText id="email" class="form-control" @bind-Value="loginModel.Email" placeholder="seuemail@exemplo.com" />
+                    <ValidationMessage For="@(() => loginModel.Email)" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <InputText id="password" type="password" class="form-control" @bind-Value="loginModel.Password" placeholder="••••••••" />
+                    <ValidationMessage For="@(() => loginModel.Password)" />
+                </div>
+                <div class="form-options">
+                    <label class="remember-me">
+                        <InputCheckbox @bind-Value="loginModel.RememberMe" />
+                        Lembrar-me
+                    </label>
+                    <a href="/esqueci-senha">Esqueceu a senha?</a>
+                </div>
+                <button type="submit" class="btn-login" disabled="@isSubmitting">
+                    @if (isSubmitting)
+                    {
+                        <span class="spinner"></span>
+                        <span>Entrando...</span>
+     }
+    else
+    {
+                        <span>Entrar</span>
+                    }
+                </button>
+            </EditForm>
+            <div class="register-link">
+                Não tem uma conta? <span class="link-action" @onclick="ToggleForm">Registre-se aqui</span>
+            </div>
+        }
+        else
+        {
+            <h2>Crie sua conta</h2>
+            <p class="subtitle">É rápido e fácil. Vamos começar!</p>
+
+            <EditForm Model="@registerModel" OnValidSubmit="@HandleRegisterSubmit" OnInvalidSubmit="HandleRegisterInvalidSubmit">
+                <DataAnnotationsValidator />
+
+                <div class="form-group">
+                    <label for="firstName">Nome</label>
+                    <InputText id="firstName" class="form-control" @bind-Value="registerModel.FirstName" placeholder="Ex: João" />
+                    <ValidationMessage For="@(() => registerModel.FirstName)" />
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Sobrenome</label>
+                    <InputText id="lastName" class="form-control" @bind-Value="registerModel.LastName" placeholder="Ex: da Silva" />
+                    <ValidationMessage For="@(() => registerModel.LastName)" />
+                </div>
+                <div class="form-group">
+                    <label for="dob">Data de Nascimento</label>
+                    <InputDate id="dob" class="form-control" @bind-Value="registerModel.DateOfBirth" />
+                    <ValidationMessage For="@(() => registerModel.DateOfBirth)" />
+                </div>
+                <div class="form-group">
+                    <label for="education">Qual sua série atual?</label>
+                    <InputSelect id="education" class="form-control" @bind-Value="registerModel.EducationLevel">
+                        <option value="">Selecione sua série...</option>
+                        @foreach (var level in EducationLevels)
+                        {
+                            <option value="@level">@level</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="@(() => registerModel.EducationLevel)" />
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <InputText id="register-email" class="form-control" @bind-Value="registerModel.Email" placeholder="seuemail@exemplo.com" />
+                    <ValidationMessage For="@(() => registerModel.Email)" />
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Senha</label>
+                    <InputText id="register-password" type="password" class="form-control" @bind-Value="registerModel.Password" placeholder="Mínimo de 6 caracteres" />
+                    <ValidationMessage For="@(() => registerModel.Password)" />
+                </div>
+
+                <button type="submit" class="btn-login" disabled="@isSubmitting">
+                    @if (isSubmitting)
+                    {
+                        <span class="spinner"></span>
+                        <span>Criando...</span>
+     }
+    else
+    {
+                        <span>Criar Conta</span>
+                    }
+                </button>
+            </EditForm>
+
+            <div class="register-link">
+                Já tem uma conta? <span class="link-action" @onclick="ToggleForm">Faça Login</span>
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="error-message">
+                <span class="error-icon">❌</span>
+                <span>@errorMessage</span>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private bool isRegistering = false;
+    private bool isSubmitting = false;
+    private string? errorMessage = null;
+
+    private LoginModel loginModel = new();
+    private RegisterModel registerModel = new();
+
+    private List<string> EducationLevels { get; } = new List<string>
+    {
+        "6º Ano do Ensino Fundamental",
+        "7º Ano do Ensino Fundamental",
+        "8º Ano do Ensino Fundamental",
+        "9º Ano do Ensino Fundamental",
+        "1º Ano do Ensino Médio",
+        "2º Ano do Ensino Médio",
+        "3º Ano do Ensino Médio"
+    };
+
+    public class LoginModel
+    {
+        [Required(ErrorMessage = "O email é obrigatório.")]
+        [EmailAddress(ErrorMessage = "Por favor, insira um email válido.")]
+        public string Email { get; set; } = string.Empty;
+        [Required(ErrorMessage = "A senha é obrigatória.")]
+        public string Password { get; set; } = string.Empty;
+        public bool RememberMe { get; set; }
+    }
+
+    public class RegisterModel
+    {
+        [Required(ErrorMessage = "O nome é obrigatório.")]
+        public string FirstName { get; set; } = string.Empty;
+        [Required(ErrorMessage = "O sobrenome é obrigatório.")]
+        public string LastName { get; set; } = string.Empty;
+        [Required(ErrorMessage = "A data de nascimento é obrigatória.")]
+        [MinimumAge(11, 1920)]
+        public DateTime? DateOfBirth { get; set; }
+        [Required(ErrorMessage = "Selecione sua série.")]
+        public string EducationLevel { get; set; } = string.Empty;
+        [Required(ErrorMessage = "O email é obrigatório.")]
+        [EmailAddress(ErrorMessage = "Por favor, insira um email válido.")]
+        public string Email { get; set; } = string.Empty;
+        [Required(ErrorMessage = "A senha é obrigatória.")]
+        [MinLength(6, ErrorMessage = "A senha deve ter pelo menos 6 caracteres.")]
+        public string Password { get; set; } = string.Empty;
+    }
+
+    private async Task HandleLoginSubmit()
+    {
+        isSubmitting = true;
+        errorMessage = null;
+        await Task.Delay(1500);
+        if (loginModel.Email == "teste@enemlab.com" && loginModel.Password == "senha123")
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            errorMessage = "Email ou senha inválidos. Tente novamente.";
+        }
+        isSubmitting = false;
+    }
+
+    private async Task HandleRegisterSubmit()
+    {
+        isSubmitting = true;
+        errorMessage = null;
+        await Task.Delay(1500);
+        Console.WriteLine($"Novo cadastro: {registerModel.FirstName} {registerModel.LastName}, Nascimento: {registerModel.DateOfBirth?.ToShortDateString()}");
+        isRegistering = false;
+        isSubmitting = false;
+    }
+
+    // --- NOVO MÉTODO PARA SUBMISSÃO INVÁLIDA ---
+    private void HandleRegisterInvalidSubmit()
+    {
+        errorMessage = "Por favor, corrija os erros indicados no formulário antes de continuar.";
+    }
+
+    private void ToggleForm()
+    {
+        isRegistering = !isRegistering;
+        errorMessage = null;
+    }
+
+    public class MinimumAgeAttribute : ValidationAttribute
+    {
+        private readonly int _minimumAge;
+        private readonly int _minimumYear;
+        public MinimumAgeAttribute(int minimumAge, int minimumYear)
+        {
+            _minimumAge = minimumAge;
+            _minimumYear = minimumYear;
+        }
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        {
+            if (value is not DateTime dateOfBirth)
+            {
+                return new ValidationResult("Data inválida.");
+            }
+            if (dateOfBirth > DateTime.Today)
+            {
+                return new ValidationResult("A data de nascimento não pode ser no futuro.");
+            }
+            if (dateOfBirth.Year < _minimumYear)
+            {
+                return new ValidationResult($"O ano de nascimento deve ser a partir de {_minimumYear}.");
+            }
+            var age = DateTime.Today.Year - dateOfBirth.Year;
+            if (dateOfBirth.Date > DateTime.Today.AddYears(-age))
+            {
+                age--;
+            }
+            if (age < _minimumAge)
+            {
+                return new ValidationResult($"Você deve ter no mínimo {_minimumAge} anos para se cadastrar.");
+            }
+            return ValidationResult.Success;
+        }
+    }
+}

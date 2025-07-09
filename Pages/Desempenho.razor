@@ -1,0 +1,57 @@
+﻿@page "/desempenho"
+
+<NavMenu></NavMenu>
+
+<main class="painel-desempenho">
+    <header class="painel-header">
+        <h1>Seu Desempenho</h1>
+        <p>Continue assim, o progresso é a chave para a aprovação!</p>
+    </header>
+
+    <div class="info-boxes">
+        <div class="box aproveitamento">
+            <p>Aproveitamento Pessoal</p>
+            <div class="stars">@GerarEstrelas(Estrelas)</div>
+        </div>
+        <div class="box questoes">
+            <p>Questões Efetuadas</p>
+            <div class="acertos-erros">
+                <span class="acerto">✔ @Acertos</span>
+                <span class="erro">✖ @Erros</span>
+            </div>
+        </div>
+        <div class="box nivel">
+            <p>Nível Atual</p>
+            <span class="medalha @Nivel.ToLower()">@Nivel</span>
+        </div>
+    </div>
+
+    <section class="aproveitamento-geral">
+        <h2>Aproveitamento Geral</h2>
+        <div class="donut-chart" style="--percent: @PercentualAcertos;">
+            <span class="donut-center-text">@PercentualAcertos%</span>
+        </div>
+        <p class="legenda-grafico">das questões corretas</p>
+    </section>
+
+</main>
+
+
+@code {
+    // --- Dados do Usuário ---
+    private int Estrelas { get; set; } = 4;
+    private int Acertos { get; set; } = 0;
+    private int Erros { get; set; } = 40;
+    private string Nivel { get; set; } = "OURO";
+
+    // Propriedade calculada para o gráfico de rosca com a fórmula correta de aproveitamento
+    private int PercentualAcertos => (Acertos + Erros) == 0 ? 0 : (int)Math.Round((double)Acertos * 100 / (Acertos + Erros));
+
+    private string GerarEstrelas(int quantidade)
+    {
+        quantidade = Math.Clamp(quantidade, 0, 5);
+        string estrelasCheias = new string('★', quantidade);
+        string estrelasVazias = new string('☆', 5 - quantidade);
+        return estrelasCheias + estrelasVazias;
+    }
+}

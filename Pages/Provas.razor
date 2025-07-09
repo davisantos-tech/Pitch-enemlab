@@ -1,0 +1,177 @@
+﻿@page "/prova"
+@inject NavigationManager Nav
+@inject ProvaStateService ProvaState
+@implements IDisposable
+@using System.Diagnostics
+
+<PageTitle>Prova - EnemLab</PageTitle>
+
+@if (isLoading)
+{
+    <div class="loading-container">Carregando prova...</div>
+}
+else
+{
+    <div class="test-environment-container">
+        <main class="question-main-area">
+            <header class="question-header">
+                <h3>Questão @(currentQuestionIndex + 1) de @allQuestions.Count</h3>
+
+                <div class="test-progress">
+                    <span>Progresso: @QuestionsAnsweredCount / @allQuestions.Count</span>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" style="width: @GetProgressPercentage()%;"></div>
+                    </div>
+                </div>
+
+                <div class="question-tools">
+                    <button class="tool-btn @(currentQuestion.IsMarkedForReview ? "active-yellow" : "")" @onclick="ToggleMarkForReview"><span class="icon">★</span><span>Lembrar</span></button>
+                    <button class="tool-btn @(isEliminatingMode ? "active-blue" : "")" @onclick="() => isEliminatingMode = !isEliminatingMode"><span class="icon">✏️</span><span>Rabiscar</span></button>
+                </div>
+            </header>
+
+            <div class="question-content">
+                @if (!string.IsNullOrEmpty(currentQuestion.ImageUrl))
+                {
+                    <div class="question-image-container">
+                        <img src="@currentQuestion.ImageUrl" alt="Imagem da questão @(currentQuestionIndex + 1)" />
+                    </div>
+                }
+                <p class="question-statement">@currentQuestion.Statement</p>
+            </div>
+            <div class="options-list">
+                @foreach (var option in currentQuestion.Options)
+                {
+                    var optionClass = GetOptionClass(option.Key);
+                    <div class="@optionClass" @onclick="() => HandleOptionClick(option.Key)">
+                        <span class="option-key">@option.Key</span>
+                        <span class="option-text">@option.Value</span>
+                    </div>
+                }
+            </div>
+            <footer class="question-footer">
+                <button class="nav-btn" @onclick="PreviousQuestion" disabled="@(currentQuestionIndex == 0)">Anterior</button>
+                <button class="finalize-btn" @onclick="() => isConfirmModalOpen = true">Finalizar Prova</button>
+                <button class="nav-btn" @onclick="NextQuestion" disabled="@(currentQuestionIndex == allQuestions.Count - 1)">Próxima</button>
+            </footer>
+        </main>
+
+        <aside class="question-sidebar-nav">
+            <div class="timer-box">
+                <span>Tempo</span>
+                <span class="timer-display">@stopwatchDisplay</span>
+            </div>
+            <div class="question-grid-container">
+                <div class="question-grid">
+                    @foreach (var (question, i) in GetPaginatedQuestions())
+                    {
+                        var itemClass = "question-nav-item";
+                        if (question.IsMarkedForReview) { itemClass += " marked"; }
+                        if (question.UserAnswer is not null) { itemClass += " answered"; }
+                        if (i == currentQuestionIndex) { itemClass += " current"; }
+                        <div class="@itemClass" @onclick="() => NavigateToQuestion(i)">
+                            <span class="nav-item-number">@(i + 1)</span>
+                            <span class="nav-item-answer">@(question.UserAnswer?.ToString() ?? "-")</span>
+                        </div>
+                    }
+                </div>
+                @if (totalNavPages > 1)
+                {
+                    <div class="question-nav-pagination">
+                        @for (int p = 1; p <= totalNavPages; p++)
+                        {
+                            var pageNum = p;
+                            <button class="nav-page-btn @(questionNavPage == pageNum ? "active" : "")" @onclick="() => questionNavPage = pageNum">
+                                @(((pageNum - 1) * QuestionNavPageSize) + 1)-@(Math.Min(pageNum * QuestionNavPageSize, allQuestions.Count))
+                            </button>
+                        }
+                    </div>
+                }
+            </div>
+        </aside>
+    </div>
+}
+
+@if (isConfirmModalOpen)
+{
+    <div class="modal-backdrop" @onclick="() => isConfirmModalOpen = false">
+        <div class="modal-content confirmation-modal" @onclick:stopPropagation>
+            <div class="modal-icon-wrapper"><span class="modal-icon">🤔</span></div>
+            <h3>Finalizar Prova?</h3>
+            <p>Suas respostas serão salvas e a sessão encerrada. Deseja continuar?</p>
+            <div class="modal-actions">
+                <button class="btn-secondary" @onclick="() => isConfirmModalOpen = false">Cancelar</button>
+                <button class="btn-danger" @onclick="FinalizeTest">Sim, Finalizar</button>
+            </div>
+        </div>
+    </div>
+}
+@if (isResultsModalOpen)
+{
+    <div class="modal-backdrop">
+        <div class="modal-content results-modal" @onclick:stopPropagation>
+            <div class="results-header"><span class="results-icon">🎉</span><h2>Prova Finalizada!</h2><p>Confira seu desempenho nesta sessão.</p></div>
+            <div class="main-stat-container"><div class="donut-chart-results" style="--percent: @aproveitamento;"><span class="donut-center-text">@aproveitamento%</span></div><div class="main-stat-label">Aproveitamento</div></div>
+            <div class="secondary-stats-grid"><div class="result-stat-box"><span class="stat-label">✅ Acertos</span><span class="stat-value acertos">@acertosCount</span></div><div class="result-stat-box"><span class="stat-label">❌ Erros</span><span class="stat-value erros">@errosCount</span></div><div class="result-stat-box"><span class="stat-label">⏱️ Tempo</span><span class="stat-value tempo">@timeTaken.ToString(@"mm\:ss")</span></div></div>
+            <button class="modal-btn-results" @onclick="GoToHomepage">Voltar ao Início</button>
+        </div>
+    </div>
+}
+
+
+@code {
+    public class Question
+    {
+        public int Id { get; set; }
+        public string Statement { get; set; } = "";
+        public string? ImageUrl { get; set; }
+        public Dictionary<char, string> Options { get; set; } = new();
+        public char CorrectAnswer { get; set; }
+        public char? UserAnswer { get; set; }
+        public bool IsMarkedForReview { get; set; }
+        public HashSet<char> EliminatedOptions { get; set; } = new();
+    }
+
+    private List<Question> allQuestions = new();
+    private Question currentQuestion = new();
+    private int currentQuestionIndex = 0;
+    private bool isLoading = true;
+    private bool isEliminatingMode = false;
+    private bool isConfirmModalOpen = false;
+    private bool isResultsModalOpen = false;
+
+    private System.Threading.Timer? timer;
+    private Stopwatch stopwatch = new();
+    private string stopwatchDisplay = "00:00:00";
+    private TimeSpan timeTaken;
+
+    private int acertosCount = 0;
+    private int errosCount = 0;
+    private int aproveitamento = 0;
+
+    private int questionNavPage = 1;
+    private const int QuestionNavPageSize = 30;
+    private int totalNavPages => (int)Math.Ceiling((double)allQuestions.Count / QuestionNavPageSize);
+
+    // --- LÓGICA DO PROGRESSO ---
+    private int QuestionsAnsweredCount => allQuestions.Count(q => q.UserAnswer.HasValue);
+    private int GetProgressPercentage()
+    {
+        if (allQuestions.Count == 0) return 0;
+        return (QuestionsAnsweredCount * 100) / allQuestions.Count;
+    }
+
+    // O resto do código C# continua o mesmo
+    protected override async Task OnInitializedAsync() { if (ProvaState.QuantidadeQuestoes == 0) { Nav.NavigateTo("/provas-gerais"); return; } await GenerateDummyQuestions(ProvaState.QuantidadeQuestoes); currentQuestion = allQuestions.FirstOrDefault() ?? new Question(); stopwatch.Start(); timer = new Timer(_ => { stopwatchDisplay = stopwatch.Elapsed.ToString(@"hh\:mm\:ss"); InvokeAsync(StateHasChanged); }, null, 0, 1000); isLoading = false; }
+    private IEnumerable<(Question question, int index)> GetPaginatedQuestions() { return allQuestions.Select((question, index) => (question, index)).Skip((questionNavPage - 1) * QuestionNavPageSize).Take(QuestionNavPageSize); }
+    private void NavigateToQuestion(int index) { currentQuestionIndex = index; currentQuestion = allQuestions[index]; }
+    private void NextQuestion() { if (currentQuestionIndex < allQuestions.Count - 1) { currentQuestionIndex++; currentQuestion = allQuestions[currentQuestionIndex]; } }
+    private void PreviousQuestion() { if (currentQuestionIndex > 0) { currentQuestionIndex--; currentQuestion = allQuestions[currentQuestionIndex]; } }
+    private void HandleOptionClick(char optionKey) { var question = allQuestions[currentQuestionIndex]; if (isEliminatingMode) { if (question.EliminatedOptions.Contains(optionKey)) question.EliminatedOptions.Remove(optionKey); else if (question.EliminatedOptions.Count < 4) question.EliminatedOptions.Add(optionKey); } else { question.UserAnswer = (question.UserAnswer == optionKey) ? null : optionKey; } }
+    private void ToggleMarkForReview() => allQuestions[currentQuestionIndex].IsMarkedForReview = !allQuestions[currentQuestionIndex].IsMarkedForReview;
+    private string GetOptionClass(char optionKey) { if (currentQuestion.UserAnswer == optionKey) return "option-item selected"; if (currentQuestion.EliminatedOptions.Contains(optionKey)) return "option-item eliminated"; return "option-item"; }
+    private void FinalizeTest() { isConfirmModalOpen = false; stopwatch.Stop(); timeTaken = stopwatch.Elapsed; acertosCount = allQuestions.Count(q => q.UserAnswer.HasValue && q.UserAnswer == q.CorrectAnswer); errosCount = allQuestions.Count(q => q.UserAnswer.HasValue && q.UserAnswer != q.CorrectAnswer); var totalRespondido = acertosCount + errosCount; aproveitamento = totalRespondido == 0 ? 0 : (acertosCount * 100) / totalRespondido; isResultsModalOpen = true; }
+    private void GoToHomepage() => Nav.NavigateTo("/");
+    public void Dispose() => timer?.Dispose();
+    private async Task GenerateDummyQuestions(int count) { allQuestions = new List<Question>(); var random = new Random(); char[] possibleAnswers = { 'A', 'B', 'C', 'D', 'E' }; for (int i = 1; i <= count; i++) { allQuestions.Add(new Question { Id = i, ImageUrl = (i % 3 == 0) ? $"https://picsum.photos/seed/{i}/600/300" : null, Statement = $"Este é o enunciado da questão número {i}. Se houver uma imagem associada, ela aparecerá acima deste texto. Analise todas as informações para escolher a alternativa correta.", Options = new Dictionary<char, string> { { 'A', $"Alternativa A da questão {i}" }, { 'B', $"Alternativa B da questão {i}" }, { 'C', $"Alternativa C da questão {i}" }, { 'D', $"Alternativa D da questão {i}" }, { 'E', $"Alternativa E da questão {i}" } }, CorrectAnswer = possibleAnswers[random.Next(possibleAnswers.Length)] }); } await Task.CompletedTask; }
+}

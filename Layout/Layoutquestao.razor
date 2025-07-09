@@ -1,0 +1,52 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page-container @(menuLateralAberto ? "sidebar-visible" : "")">
+
+    <button class="menu-toggle-btn @(menuLateralAberto ? "hidden" : "")" @onclick="AlternarMenuLateral">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" /></svg>
+    </button>
+
+    <aside class="sidebar-menu">
+        <header class="sidebar-header">
+            <span class="logo">EnemLab 🚀</span>
+            <button class="sidebar-toggle-btn" @onclick="AlternarMenuLateral">
+                <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg>
+            </button>
+        </header>
+
+        <nav class="main-nav">
+            <NavLink href="/" Match="NavLinkMatch.All" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" /></svg>
+                <span class="nav-text">Início</span>
+            </NavLink>
+            <NavLink href="/questoes" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M18,22A2,2 0 0,0 20,20V4C20,2.89 19.1,2 18,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18M11,4H13V16L11,18V4Z" /></svg>
+                <span class="nav-text">Questões</span>
+            </NavLink>
+            <NavLink href="/provas" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M5,21V3H19V21H5M7,5V19H17V5H7M9,7H15V9H9V7M9,11H13V13H9V11Z" /></svg>
+                <span class="nav-text">Provas</span>
+            </NavLink>
+            <NavLink href="/desempenho" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z" /></svg>
+                <span class="nav-text">Desempenho</span>
+            </NavLink>
+            <NavLink href="/meu-perfil" class="nav-link">
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" /></svg>
+                <span class="nav-text">Perfil</span>
+            </NavLink>
+        </nav>
+    </aside>
+
+    @* AQUI é onde o conteúdo da sua página (Questoes.razor) será renderizado *@
+    @Body
+</div>
+
+@code {
+    private bool menuLateralAberto = true;
+
+    private void AlternarMenuLateral()
+    {
+        menuLateralAberto = !menuLateralAberto;
+    }
+}

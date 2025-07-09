@@ -1,0 +1,281 @@
+﻿/* Pages/Login.razor.css - VERSÃO RESPONSIVA */
+:root {
+    --primary-color: #0891b2;
+    --secondary-color: #4a00e0;
+    --text-dark: #2d2d2d;
+    --text-light-emphasis: #555;
+    --background-page: linear-gradient(135deg,#e0fcff,#f0f8ff);
+    --background-card: #fff;
+    --card-shadow: 0 10px 30px rgba(0,0,0,.1);
+    --input-border-color: #ced4da;
+    --input-focus-border-color: var(--primary-color);
+    --input-background: #f8f9fa;
+    --link-color: var(--primary-color);
+    --error-color: #dc3545;
+    --font-primary: "Inter",sans-serif
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem;
+    background: linear-gradient(135deg,#e0fcff,#f0f8ff);
+    font-family: var(--font-primary)
+}
+
+.login-card {
+    background-color: var(--background-card);
+    padding: 2.5rem 3rem;
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    animation: fadeInLoginCard .7s ease-out
+}
+
+@keyframes fadeInLoginCard {
+    from {
+        opacity: 0;
+        transform: translateY(20px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+.login-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: var(--primary-color)
+}
+
+    .login-logo .logo-svg-icon {
+        width: 36px;
+        height: auto
+    }
+
+    .login-logo h1 {
+        font-family: "Montserrat",sans-serif;
+        font-size: 2.2em;
+        font-weight: 800;
+        margin: 0;
+        color: var(--primary-color)
+    }
+
+.login-card h2 {
+    font-size: 1.8em;
+    color: var(--text-dark);
+    margin-bottom: .5rem;
+    font-weight: 700
+}
+
+.login-card .subtitle {
+    color: var(--text-light-emphasis);
+    margin-bottom: 2rem;
+    font-size: .95em
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: .5rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        font-size: .9em
+    }
+
+.form-control {
+    width: 100%;
+    padding: .85rem 1rem;
+    font-size: .95em;
+    border: 1px solid var(--input-border-color);
+    border-radius: 8px;
+    background-color: var(--input-background);
+    transition: border-color .2s ease-in-out,box-shadow .2s ease-in-out
+}
+
+    .form-control:focus {
+        border-color: var(--input-focus-border-color);
+        outline: 0;
+        box-shadow: 0 0 0 .2rem rgba(var(--primary-color),.25)
+    }
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    font-size: .85em
+}
+
+    .form-options .remember-me {
+        display: flex;
+        align-items: center;
+        gap: .4rem;
+        color: var(--text-light-emphasis);
+        cursor: pointer
+    }
+
+        .form-options .remember-me input[type=checkbox] {
+            accent-color: var(--primary-color);
+            width: 1em;
+            height: 1em
+        }
+
+    .form-options a {
+        color: var(--link-color);
+        text-decoration: none
+    }
+
+        .form-options a:hover {
+            text-decoration: underline
+        }
+
+.btn-login {
+    background: linear-gradient(135deg,#4a00e0,#0891b2);
+    color: #fff;
+    padding: .9rem 1.5rem;
+    border: none;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 1em;
+    cursor: pointer;
+    transition: transform .3s ease,background .3s ease,box-shadow .3s ease;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem
+}
+
+    .btn-login:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--primary-color),.3)
+    }
+
+    .btn-login:focus {
+        outline: none;
+        box-shadow: 0 0 0 .2rem rgba(var(--primary-color),.4)
+    }
+
+    .btn-login:disabled {
+        background: #ccc;
+        cursor: not-allowed
+    }
+
+.spinner {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg)
+    }
+}
+
+.validation-message {
+    color: var(--error-color);
+    font-size: .8em;
+    margin-top: .25rem;
+    text-align: left
+}
+
+.validation-summary {
+    margin-top: 1rem;
+    text-align: left
+}
+
+    .validation-summary ul {
+        list-style-type: none;
+        padding: 0
+    }
+
+    .validation-summary li {
+        color: var(--error-color);
+        font-size: .85em;
+        margin-bottom: .25rem
+    }
+
+.register-link {
+    margin-top: 2rem;
+    font-size: .9em;
+    color: var(--text-light-emphasis)
+}
+
+    .register-link a {
+        color: var(--link-color);
+        font-weight: 600;
+        text-decoration: none
+    }
+
+        .register-link a:hover {
+            text-decoration: underline
+        }
+
+.error-message {
+    background-color: rgba(var(--error-color),.1);
+    color: var(--error-color);
+    padding: .75rem 1rem;
+    border-radius: 8px;
+    margin-top: 1.5rem;
+    font-size: .9em;
+    border: 1px solid rgba(var(--error-color),.2)
+}
+
+@media(max-width:480px) {
+    .login-card {
+        padding: 2rem 1.5rem
+    }
+
+        .login-card h2 {
+            font-size: 1.6em
+        }
+
+        .login-card .subtitle {
+            font-size: .9em;
+            margin-bottom: 1.5rem
+        }
+
+    .form-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .75rem
+    }
+}
+/* Estilo para o texto clicável que alterna os formulários */
+.link-action {
+    color: var(--link-color);
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+    .link-action:hover {
+        text-decoration: underline;
+        opacity: .8;
+    }
+
+/* Ajuste na sua classe de erro para alinhar o ícone que adicionamos */
+.error-message {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+}

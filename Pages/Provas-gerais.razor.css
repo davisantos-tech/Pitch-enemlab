@@ -1,0 +1,345 @@
+﻿
+:root {
+    --primary-color: #8a2be2; /* Roxo vibrante */
+    --secondary-color: #4A00E0; /* Roxo/Azul para gradientes */
+    --primary-glow: rgba(138, 43, 226, 0.4);
+    --bg-gradient: linear-gradient(135deg, #f0f8ff, #e6e6fa);
+    --text-dark: #2c3e50;
+    --text-light: #576c7f;
+    --card-bg: rgba(255, 255, 255, 0.75);
+    --card-shadow: 0 16px 32px rgba(44, 62, 80, 0.12);
+    --card-border: rgba(255, 255, 255, 0.5);
+}
+
+.main-container, .modal-backdrop {
+    font-family: 'Poppins', sans-serif;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 2rem;
+    perspective: 1500px;
+}
+
+.step-header {
+    text-align: center;
+    margin-bottom: 40px;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+    .step-header h1, .step-header h2 {
+        font-size: clamp(2rem, 5vw, 2.8rem);
+        font-weight: 800;
+        color: #2c3e50;
+    }
+
+
+    .step-header p {
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+        color: #576c7f;
+        margin-top: 5px;
+    }
+
+/* CARDS DE SELEÇÃO */
+.options-container {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.card-3d {
+    width: clamp(300px, 40%, 380px);
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 20px;
+    box-shadow: 0 16px 32px rgba(44, 62, 80, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    transform-style: preserve-3d;
+    transition: all 0.2s ease-out;
+    cursor: pointer;
+    animation: fadeInUp 0.8s ease-out backwards;
+}
+
+.options-container .card-3d:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.card-3d:hover {
+    box-shadow: 0 25px 50px rgba(44, 62, 80, 0.2);
+    transform: scale(1.05) translateY(-10px) rotateX(5deg);
+}
+
+.card-3d-content {
+    padding: 2.5rem;
+    text-align: center;
+    transform: translateZ(20px);
+}
+
+.card-icon {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.card-3d h2 {
+    font-size: 1.5rem;
+    color: #2c3e50;
+}
+
+.card-3d .card-description {
+    font-size: 1rem;
+    color: #576c7f;
+    margin-top: 10px;
+}
+
+.card-3d.locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+    .card-3d.locked:hover {
+        transform: none;
+    }
+
+/* --- GERAL DOS MODAIS --- */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 20, 40, 0.5);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn .3s ease;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    animation: popup .4s ease-out;
+    padding: 2.5rem;
+}
+
+/* --- MODAL DE AVISO (REDESENHADO) --- */
+.warning-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 400px;
+}
+
+.modal-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    display: grid;
+    place-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.warning-modal .modal-icon {
+    font-size: 2.5rem;
+}
+
+.warning-modal h3 {
+    font-size: 1.6rem;
+    color: #2c3e50;
+}
+
+.warning-modal p {
+    color: #576c7f;
+    font-size: 1rem;
+    margin: 0.5rem 0 2rem 0;
+}
+
+/* --- MODAL DE CONFIGURAÇÃO --- */
+.config-modal {
+    width: 100%;
+    max-width: 600px;
+}
+
+    .config-modal .step-header {
+        margin-bottom: 20px;
+    }
+
+        .config-modal .step-header h2 {
+            font-size: 1.8rem;
+        }
+
+.config-section {
+    margin-bottom: 2rem;
+}
+
+    .config-section h4 {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+    }
+
+/* --- PÍLULAS DE SELEÇÃO (REFINADAS) --- */
+#opcoes{
+    margin-left: 10px;
+}
+.pill-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+    .pill-group label {
+        padding: 0.8rem 1.5rem;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all .2s ease-in-out;
+        border: 2px solid #eaf0f6;
+        background: #f8fafc;
+        user-select: none;
+    }
+
+        .pill-group label:hover {
+            border-color: var(--primary-light);
+        }
+
+    .pill-group input[type="radio"] {
+        display: none;
+    }
+
+    .pill-group label.selected {
+        background: #8a2be2;
+        border-color: #8a2be2;
+        box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+        transform: translateY(-2px);
+    }
+        /* CORREÇÃO DO TEXTO INVISÍVEL */
+        .pill-group label.selected span {
+            color: white;
+            font-weight: 700;
+        }
+
+    .pill-group label span {
+        color: #4a5568;
+        font-weight: 600;
+    }
+
+    .pill-group label.locked {
+        background: #e2e8f0;
+        color: #a0aec0;
+        cursor: not-allowed;
+    }
+
+/* --- BOTÕES DE AÇÃO (ESTILO FINAL) --- */
+.config-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2.5rem;
+}
+
+.start-btn, .back-btn, .modal-btn {
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    border: none;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all .3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.start-btn {
+    background: linear-gradient(135deg, #4A00E0, #8a2be2);
+    color: white;
+    box-shadow: 0 8px 20px rgba(138, 43, 226, 0.4);
+}
+
+    .start-btn:hover:not(:disabled) {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(138, 43, 226, 0.4);
+    }
+
+    .start-btn:disabled {
+        background: #cdd5e0;
+        color: #8f9bb3;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+
+.back-btn {
+    background: #eaf0f6;
+    color: #576c7f;
+}
+
+    .back-btn:hover {
+        background: #dce4ee;
+    }
+
+.modal-btn {
+    background: #8a2be2;
+    color: white;
+}
+
+    .modal-btn:hover {
+        transform: scale(1.05);
+    }
+
+/* ANIMAÇÕES */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes popup {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

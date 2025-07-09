@@ -1,0 +1,109 @@
+﻿@page "/provas-gerais"
+@inject NavigationManager Nav
+@inject ProvaStateService ProvaState
+
+<PageTitle>Provas e Simulados - EnemLab</PageTitle>
+<NavMenu></NavMenu>
+
+<main class="main-container">
+    <div class="step-header">
+        <h1>Acessar Provas</h1>
+        <p>Escolha o formato do seu desafio.</p>
+    </div>
+
+    <div class="options-container">
+        <div class="card-3d" @onclick="() => isConfigModalOpen = true">
+            <div class="card-3d-content">
+                <span class="card-icon">📚</span>
+                <h2>Matérias Isoladas</h2>
+                <p class="card-description">Foque em uma matéria e aprimore seus pontos fracos.</p>
+            </div>
+        </div>
+        <div class="card-3d locked" @onclick="() => isLockedFeatureModalOpen = true">
+            <div class="card-3d-content">
+                <span class="card-icon">🏆</span>
+                <h2>Simulado Completo</h2>
+                <p class="card-description">Teste seus conhecimentos em todas as áreas como no dia da prova.</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+@if (isLockedFeatureModalOpen)
+{
+    <div class="modal-backdrop" @onclick="() => isLockedFeatureModalOpen = false">
+        <div class="modal-content warning-modal" @onclick:stopPropagation>
+            <div class="modal-icon-wrapper">
+                <span class="modal-icon">🚧</span>
+            </div>
+            <h3>Em Desenvolvimento</h3>
+            <p>Esta funcionalidade incrível será liberada em breve!</p>
+            <button class="modal-btn" @onclick="() => isLockedFeatureModalOpen = false">Entendi</button>
+        </div>
+    </div>
+}
+
+@if (isConfigModalOpen)
+{
+    <div class="modal-backdrop" @onclick="() => isConfigModalOpen = false">
+        <div class="modal-content config-modal" @onclick:stopPropagation>
+            <div class="step-header">
+                <h2>Configurar Prova</h2>
+                <p>Personalize sua sessão de estudos.</p>
+            </div>
+
+            <EditForm Model="ProvaState">
+                <div class="config-section">
+                    <h4>Matéria</h4>
+                    <div class="pill-group">
+                        <label class="selected"><span>Matemática</span></label>
+                        <label class="locked" @onclick="ShowLockedModal"><span>🔒 Linguagens</span></label>
+                        <label class="locked" @onclick="ShowLockedModal"><span>🔒 Humanas</span></label>
+                        <label class="locked" @onclick="ShowLockedModal"><span>🔒 Natureza</span></label>
+                    </div>
+                </div>
+                <div class="config-section">
+                    <h4>Quantidade de Questões</h4>
+                    <InputRadioGroup @bind-Value="ProvaState.QuantidadeQuestoes" class="pill-group">
+                        @foreach (var q_option in QuantidadeOptions)
+                        {
+                            <label class="@(ProvaState.QuantidadeQuestoes == q_option ? "selected" : "")" id="opcoes">
+                                <InputRadio Value="q_option" />
+                                <span class="radio-number">@q_option</span>
+                            </label>
+                        }
+                    </InputRadioGroup>
+                </div>
+                <div class="config-actions">
+                    <button type="button" class="back-btn" @onclick="() => isConfigModalOpen = false">&larr; Voltar</button>
+                    <button type="button" class="start-btn" disabled="@(ProvaState.QuantidadeQuestoes == 0)" @onclick="IniciarProva">🚀 Iniciar Prova</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+}
+
+@code {
+    private bool isConfigModalOpen = false;
+    private bool isLockedFeatureModalOpen = false;
+
+    private List<int> QuantidadeOptions { get; } = new List<int> { 15, 30, 45 };
+
+    protected override void OnInitialized()
+    {
+        ProvaState.Reset();
+    }
+
+    private void ShowLockedModal()
+    {
+        isConfigModalOpen = false;
+        isLockedFeatureModalOpen = true;
+    }
+
+    private void IniciarProva()
+    {
+        isConfigModalOpen = false;
+        Nav.NavigateTo("/prova");
+    }
+}

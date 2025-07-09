@@ -1,0 +1,49 @@
+﻿/* Pages/Footer.razor.css - VERSÃO RESPONSIVA */
+.app-footer {
+    background-color: #20232a;
+    color: #fff;
+    padding: 2rem 1rem; /* Ajustado padding */
+    text-align: center;
+    margin-top: auto;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap; /* Permite quebrar linha */
+    justify-content: center; /* Centraliza os links */
+    gap: 1.5rem;
+    padding: 0;
+    margin: 0;
+}
+
+    .footer-links a {
+        color: #61dafb;
+        text-decoration: none;
+        transition: text-decoration 0.2s;
+    }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+/* Em telas pequenas, os links podem precisar de mais espaço */
+@media (max-width: 480px) {
+    .footer-links {
+        flex-direction: column; /* Empilha os links */
+        gap: 0.8rem;
+    }
+
+    .app-footer {
+        padding: 1.5rem 1rem;
+    }
+}
