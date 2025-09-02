@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Auth\**" />
+    <Compile Remove="Data\**" />
+    <Content Remove="Auth\**" />
+    <Content Remove="Data\**" />
+    <EmbeddedResource Remove="Auth\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <None Remove="Auth\**" />
+    <None Remove="Data\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\js\Home.razor.js" />
   </ItemGroup>
 
@@ -14,11 +25,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.5" PrivateAssets="all" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Auth\" />
-    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>
