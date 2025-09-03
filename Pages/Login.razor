@@ -1,5 +1,6 @@
 ﻿@page "/login"
 @inject NavigationManager NavigationManager
+@inject AuthService AuthService
 @using System.ComponentModel.DataAnnotations
 
 <PageTitle>@(isRegistering ? "Cadastro" : "Login") - nemLab</PageTitle>
@@ -178,14 +179,25 @@
         isSubmitting = true;
         errorMessage = null;
         await Task.Delay(1500);
-        if (loginModel.Email == "teste@enemlab.com" && loginModel.Password == "senha123")
+
+        bool result = await AuthService.LoginAsync(loginModel);
+        if (result)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            errorMessage = "Email ou senha inválidos.";
+        }
+
+        /*if (loginModel.Email == "teste@enemlab.com" && loginModel.Password == "senha123")
         {
             NavigationManager.NavigateTo("/");
         }
         else
         {
             errorMessage = "Email ou senha inválidos. Tente novamente.";
-        }
+        }*/
         isSubmitting = false;
     }
 
@@ -193,8 +205,17 @@
     {
         isSubmitting = true;
         errorMessage = null;
-        await Task.Delay(1500);
-        Console.WriteLine($"Novo cadastro: {registerModel.FirstName} {registerModel.LastName}, Nascimento: {registerModel.DateOfBirth?.ToShortDateString()}");
+        var result = await AuthService.RegisterAsync(registerModel);
+
+        if (result.Success)
+        {
+            NavigationManager.NavigateTo("/perfil");
+        }
+        else
+        {
+            errorMessage = result.Message;
+        }
+        // Console.WriteLine($"Novo cadastro: {registerModel.FirstName} {registerModel.LastName}, Nascimento: {registerModel.DateOfBirth?.ToShortDateString()}");
         isRegistering = false;
         isSubmitting = false;
     }

@@ -24,6 +24,7 @@ builder.Services.AddSingleton<ProvaStateService>(); // <<-- ADICIONE O SERVIÇO A
 builder.Services.AddSingleton<PerfilService>();
 builder.Services.AddSingleton<QuestoesService>();
 builder.Services.AddSingleton<UsuariosService>();
+builder.Services.AddScoped<AuthService>();
 
 
 // Configuração do Entity Framework
