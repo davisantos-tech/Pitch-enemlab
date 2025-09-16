@@ -1,84 +1,158 @@
-body {
-    text-decoration: none;
-}
-
+/* === ESTILOS GERAIS E DESKTOP === */
 .header {
     display: flex;
     justify-content: center;
+    position: sticky; /* Mantém o header fixo no topo */
+    top: 0;
+    z-index: 1000;
 }
 
-.header-content {
+.header-menu {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: white;
-    padding: 20px 50px;
+    padding: 15px 40px;
     border-radius: 50px;
     margin: 20px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
     animation: fadeDown 1s ease forwards;
     width: 80%;
+    max-width: 1200px; /* Adiciona uma largura máxima */
+    transition: all 0.3s ease;
 }
 
+/* Link da logo para não ter estilos de hover dos outros links */
+.logo-link {
+    text-decoration: none;
+}
 
+    .logo-link:hover {
+        background: none !important;
+    }
 
 .logo {
     display: flex;
+    align-items: center; /* Centraliza verticalmente */
     font-family: "Montserrat", sans-serif;
-    font-optical-sizing: auto;
     font-weight: 800;
-    font-size: 1.5em;
+    font-size: 1.6em;
     color: #0891b2;
+    gap: 10px; /* Espaçamento entre o ícone e o texto */
 }
 
-span {
-    padding-left: 18%;
-    margin-top: 3%;
-}
+    /* Remove estilos antigos de posicionamento do span */
+    .logo span {
+        margin-left: -10px;
+        margin-top: 18px;
+    }
 
 .svg-logo {
-    width: 10px;
+    width: 32px; /* Tamanho correto do SVG */
+    height: 33px;
 }
-
-
 
 .main-nav {
     display: flex;
     align-items: center;
-    gap: 30px;
 }
 
-
     .main-nav a {
+        text-decoration: none;
         color: #0891b2;
         font-weight: 600;
         padding: 8px 15px;
         border-radius: 20px;
-        transition: background 0.3s ease;
+        transition: background 0.3s ease, color 0.3s ease;
     }
 
+        .main-nav a:not(.perfil-btn):hover,
         .main-nav a.active {
             background: #ecfeff;
         }
 
-        .main-nav a:hover {
-            background: rgb(217, 245, 247);
-        }
-
 .perfil-btn {
     background: linear-gradient(135deg, #ecfeff, #0891b2);
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 20px;
-    font-weight: bold;
-    box-shadow: 2px 2px 50px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    text-decoration: none;
+    color: white !important; /* !important para sobrescrever a cor padrão */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
     .perfil-btn:hover {
         transform: translateY(-3px);
-        background: linear-gradient(135deg, #ecfeff, #0891b2)
+        box-shadow: 0 4px 15px rgba(8, 145, 178, 0.3);
+        background: linear-gradient(135deg, #dcfbff, #0781a2);
     }
+
+/* Botão Hambúrguer - escondido por padrão */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px;
+}
+
+.bar {
+    width: 25px;
+    height: 3px;
+    background-color: #0891b2;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* === RESPONSIVIDADE PARA TABLETS E CELULARES === */
+@media (max-width: 1074px) {
+    .header-menu {
+        width: 95%; /* Ocupa mais espaço na tela */
+        flex-wrap: wrap; /* Permite que o menu quebre a linha */
+        padding: 15px 25px;
+    }
+
+    /* Mostra o botão hambúrguer */
+    .menu-toggle {
+        display: flex;
+    }
+
+    /* Esconde a navegação quando colapsada */
+    .main-nav.collapsed {
+        display: none;
+    }
+
+    /* Estiliza a navegação quando aberta */
+    .main-nav {
+        display: flex;
+        flex-direction: column; /* Itens em coluna */
+        align-items: center;
+        gap: 15px;
+        /* Ocupa toda a largura abaixo do logo e botão */
+        width: 100%;
+        order: 3; /* Garante que o menu apareça por último */
+        margin-top: 20px;
+        padding-bottom: 10px;
+    }
+
+        .main-nav a {
+            width: 100%;
+            text-align: center;
+        }
+
+    .perfil-btn {
+        padding: 12px 20px;
+    }
+}

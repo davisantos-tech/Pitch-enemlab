@@ -1,727 +1,583 @@
 ﻿body {
-  font-family: "Inter", sans-serif;
-  background: linear-gradient(135deg, #e0fcff, #f8ffff);
-  color: #333;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
+    font-family: "Inter", sans-serif;
+    background: linear-gradient(135deg, #e0fcff, #f8ffff);
+    color: #333;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 
 
 .hero {
-  display: flex;
-  justify-content: center;
-  padding: 0 1rem; /* Adicionado para evitar que o conteúdo cole nas bordas em telas pequenas */
+    display: flex;
 }
 
-
-
 .hero-menu {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 90px 20px; 
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 50px;
+    padding: 90px 50px;
 }
 
 
 
 .hero-text {
-  width: 60%;
+    width: 60%;
 }
 
+    .hero-text h1 {
+        font-size: 4em;
+        margin-bottom: 20px;
+        color: #333;
+        animation: fadeUp 1.5s ease forwards;
+        text-align: left;
+    }
 
-
- .hero-text h1 {
-  font-size: 4em;
-  margin-bottom: 20px;
-  color: #333;
-  animation: fadeUp 1.5s ease forwards;
-  text-align: left; /* Alinhamento à esquerda para melhor legibilidade */
-}
-
-
-
- .hero-text p { /* Corrigido seletor que estava com um '&' inválido */
-
-  font-size: 1.2em;
-  margin-bottom: 20px;
-  width: 80%; /* Aumentado para melhor uso do espaço */
-}
+    .hero-text p {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+        width: 65%;
+    }
 
 
 
 .study-btn {
-  background: linear-gradient(135deg, #ecfeff, #0891b2);
-  color: white;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.3s ease, background 0.3s ease;
+    background: linear-gradient(135deg, #ecfeff, #0891b2);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease;
 }
 
-
-
- .study-btn:hover {
-  transform: scale(1.05);
-  background: linear-gradient(135deg, #ecfeff, #0891b2);
-}
-
-
+    .study-btn:hover {
+        transform: scale(1.05);
+        background: linear-gradient(135deg, #ecfeff, #0891b2);
+    }
 
 .hero-images {
-  display: grid;
-  grid-template-columns: repeat(2, 200px);
-  gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 200px);
+    gap: 20px;
 }
 
-
-
- .hero-images img {
-  width: 100%; /* Imagens fluidas */
-  height: auto;
-  aspect-ratio: 1 / 1; /* Mantém o formato quadrado */
-  border-radius: 30px;
-  object-fit: cover;
-  animation: float 4s ease-in-out infinite;
-}
-
-
-
-
-
-/* --- Seção Objetivo --- */
-
-.objetivo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 1rem; /* Padding lateral */
-
-  color: #2d2d2d;
-}
-
-
-
- .objetivo h2 {
-  font-size: 2.8em;
-  font-weight: bold;
-  margin-bottom: 30px;
-  opacity: 0;
-  padding: 20px;
-  text-align: center;
-}
-
-
-
-.objetivo-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 40px;
-  max-width: 1100px;
-  width: 100%;
-}
-
-
-
-.objetivo-texto {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 25px 20px;
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  flex: 1;
-  opacity: 0;
-}
-
-
-
- .objetivo-texto p {
-  margin-bottom: 15px;
-  font-size: 1em;
-  line-height: 1.6;
-}
-
-
-
-.objetivo-imagem {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-}
-
-
-
- .objetivo-imagem img {
-  max-width: 100%;
-  width: 80%;
-  opacity: 20%;
-  animation: pulse 4s ease-in-out infinite, float 6s ease-in-out infinite;
-}
-
-
-
-
-
-/* --- Seção Diferenciais --- */
-
-.diferenciais {
-  text-align: center;
-  padding: 6rem 1rem; /* Padding lateral */
-}
-
-
-
-.titulo-diferencial {
-  font-size: 2.8rem;
-  font-weight: bold;
-  margin-bottom: 3rem;
-  color: #333;
-  animation: fadeSlideDown 1s ease forwards;
-}
-
-
-
-.cards-diferenciais {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Grid responsivo */
-
-  gap: 2rem; /* Gap reduzido */
-
-  justify-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-
-
-.card {
-  width: 100%; /* Ocupa todo o espaço do grid */
-
-  height: 100%;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(15px);
-  padding: 1.5rem;
-  border-radius: 20px;
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.05);
-  transform: translateY(50px);
-  opacity: 0;
-  animation: slideInUp 1s ease forwards;
-  animation-delay: var(--delay);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-
-
-
- .card:hover {
-  transform: translateY(-10px) scale(1.03);
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-}
-
-
-
-.icone-card {
-  width: 50px;
-  height: 50px;
-  margin-bottom: 1rem;
-  animation: pulseIcon 3s infinite ease-in-out;
-}
-
-
-
-.card h3 {
-  margin: 1rem 0;
-  font-size: 1.5rem;
-  color: #333;
-  font-family: "Kanit", sans-serif;
-}
-
-
-
-.card p {
-  font-size: 0.95rem;
-  color: #222;
-  line-height: 1.6;
-  font-family: "Kanit", sans-serif;
-}
-
-
-
-
-
-/* --- Seção Método Clareza --- */
-
-.metodo-clareza {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 3rem;
-  padding: 6rem 2rem;
-  max-width: 1200px;
-  margin: auto;
-}
-
-
-
-.imagem-matematica {
-  border-radius: 25px;
-  overflow: hidden;
-  transform: translateX(-100px);
-  opacity: 0;
-  animation: slideLeftIn 1.2s forwards ease;
-}
-
-
-
- .imagem-matematica img {
-  width: 100%;
-  border-radius: 25px;
-  animation: floatImage 5s ease-in-out infinite;
-}
-
-
-
-.texto-matematica {
-  transform: translateX(100px);
-  opacity: 0;
-  animation: slideRightIn 1.2s forwards ease 0.5s;
-}
-
-
-
- .texto-matematica h2 {
-  font-size: 3.3rem;
-  margin-bottom: 1rem;
-  color: #333;
-  animation: fadeText 1s forwards ease 1s;
-}
-
-
-
- .texto-matematica h2 span {
-  color: #4a00e0;
-  background: linear-gradient(45deg, #8e2de2, #4a00e0);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-
-
- .texto-matematica p {
-  margin: 0.5rem 0;
-  line-height: 1.6;
-  color: #222;
-  animation: fadeText 1s forwards ease 1.3s;
-}
-
-
-
-
-
-/* --- ANIMAÇÕES (sem alterações) --- */
+    .hero-images img {
+        width: 200px;
+        height: 200px;
+        border-radius: 30px;
+        object-fit: cover;
+        animation: float 4s ease-in-out infinite;
+    }
 
 @keyframes fadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
 
-  0% {
-      opacity: 0;
-      transform: translateY(30px)
-
-  }
-
-
-
-  100% {
-      opacity: 1;
-      transform: translateY(0)
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
-
-
 
 @keyframes fadeDown {
-
-  0% {
-      opacity: 0;
-      transform: translateY(-30px)
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
     }
 
-
-
-  100% {
-      opacity: 1;
-      transform: translateY(0)
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
-
-
 
 @keyframes float {
-
-  0%,100% {
-      transform: translateY(0)
+    0%, 100% {
+        transform: translateY(0);
     }
 
-
-
-  50% {
-      transform: translateY(-10px)
+    50% {
+        transform: translateY(-10px);
     }
 }
 
+.objetivo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    color: #2d2d2d;
+}
 
+    .objetivo h2 {
+        font-size: 2.8em;
+        font-weight: bold;
+        margin-bottom: 30px;
+        opacity: 0;
+        padding: 20px;
+    }
+
+.objetivo-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    max-width: 1100px;
+    width: 100%;
+}
+
+.objetivo-texto {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 25px 20px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    opacity: 0;
+}
+
+    .objetivo-texto p {
+        margin-bottom: 15px;
+        font-size: 1em;
+        line-height: 1.6;
+    }
+
+.objetivo-imagem {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+}
+
+    .objetivo-imagem img {
+        max-width: 100%;
+        width: 80%;
+        opacity: 20%;
+        animation: pulse 4s ease-in-out infinite, float 6s ease-in-out infinite;
+    }
 
 @keyframes pulse {
-
-  0% {
-      transform: scale(1)
+    0% {
+        transform: scale(1);
     }
 
-
-
-  50% {
-      transform: scale(1.03)
+    50% {
+        transform: scale(1.03);
     }
 
-
-
-  100% {
-      transform: scale(1)
+    100% {
+        transform: scale(1);
     }
 }
 
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
 
+    50% {
+        transform: translateY(-8px);
+    }
 
+    100% {
+        transform: translateY(0);
+    }
+}
+/* Fade de cima */
 @keyframes fadeInTop {
-
-  0% {
-      opacity: 0;
-      transform: translateY(-50px)
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
     }
 
-
-
-  100% {
-      opacity: 1;
-      transform: translateY(0)
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-
-
+/* Slide da esquerda */
 @keyframes slideInLeft {
-
-  0% {
-      opacity: 0;
-      transform: translateX(-100vw)
+    0% {
+        opacity: 0;
+        transform: translateX(-100vw);
     }
 
-
-
-  100% {
-      opacity: 1;
-      transform: translateX(0)
+    100% {
+        opacity: 1;
+        transform: translateX(0);
     }
 }
 
-
-
+/* Slide da direita */
 @keyframes slideInRight {
-
-  0% {
-      opacity: 0;
-      transform: translateX(100vw)
+    0% {
+        opacity: 0;
+        transform: translateX(100vw);
     }
 
-
-
-  100% {
-      opacity: 1;
-      transform: translateX(0)
+    100% {
+        opacity: 1;
+        transform: translateX(0);
     }
 }
 
-
-
+/* Zoom com fade */
 @keyframes zoomInFade {
-
-  0% {
-      opacity: 0;
-      transform: scale(.8)
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
     }
 
-
-
-  100% {
-      opacity: 1;
-      transform: scale(1)
+    100% {
+        opacity: 1;
+        transform: scale(1);
     }
 }
 
-
+/* --- Aplicando animações com delay --- */
 
 .fade-in-top {
-  animation: fadeInTop 1s ease forwards
+    animation: fadeInTop 1s ease forwards;
 }
-
-
 
 .slide-in-left {
-  animation: slideInLeft 1.2s ease forwards
+    animation: slideInLeft 1.2s ease forwards;
 }
-
-
 
 .slide-in-right {
-  animation: slideInRight 1.2s ease forwards;
-  animation-delay: .4s
+    animation: slideInRight 1.2s ease forwards;
+    animation-delay: 0.4s;
 }
-
-
 
 .zoom-in {
-  animation: zoomInFade 1s ease forwards;
-  animation-delay: .7s
+    animation: zoomInFade 1s ease forwards;
+    animation-delay: 0.7s;
 }
 
+.diferenciais {
+    text-align: center;
+    padding: 6rem 2rem;
+}
 
+.titulo-diferencial {
+    font-size: 2.8rem;
+    font-weight: bold;
+    margin-bottom: 3rem;
+    color: #333;
+    animation: fadeSlideDown 1s ease forwards;
+}
 
+.diferenciais-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+}
+
+.cards-diferenciais {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 8rem;
+    justify-items: center;
+}
+
+/* Card */
+.card {
+    width: 80%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    padding: 1.5rem;
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.05);
+    transform: translateY(50px);
+    opacity: 0;
+    animation: slideInUp 1s ease forwards;
+    animation-delay: var(--delay);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+    .card:hover {
+        transform: translateY(-10px) scale(1.03);
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    }
+
+/* Imagem */
+.icone-card {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 1rem;
+    animation: pulseIcon 3s infinite ease-in-out;
+}
+
+/* Título dos cards */
+.card h3 {
+    margin: 1rem 0;
+    font-size: 1.5rem;
+    color: #333;
+    font-family: "Kanit", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Texto */
+.card p {
+    font-size: 0.95rem;
+    color: #222;
+    line-height: 1.6;
+    font-family: "Kanit", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Animações */
 @keyframes slideInUp {
-
-  from {
-      transform: translateY(100px);
-      opacity: 0;
+    from {
+        transform: translateY(100px);
+        opacity: 0;
     }
 
-
-
-  to {
-      transform: translateY(0);
-      opacity: 1;
+    to {
+        transform: translateY(0);
+        opacity: 1;
     }
 }
-
-
 
 @keyframes fadeSlideDown {
-
-  from {
-      opacity: 0;
-      transform: translateY(-20px)
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
     }
 
-
-
-  to {
-      opacity: 1;
-      transform: translateY(0)
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
-
-
 
 @keyframes pulseIcon {
-
-  0%,100% {
-      transform: scale(1);
-      filter: brightness(1);
+    0%, 100% {
+        transform: scale(1);
+        filter: brightness(1);
     }
 
-
-
-  50% {
-      transform: scale(1.2);
-      filter: brightness(1.4);
+    50% {
+        transform: scale(1.2);
+        filter: brightness(1.4);
     }
 }
 
+.metodo-clareza {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 3rem;
+    padding: 6rem 2rem;
+    max-width: 1200px;
+    margin: auto;
+}
 
+.imagem-matematica {
+    border-radius: 25px;
+    overflow: hidden;
+    transform: translateX(-100px);
+    opacity: 0;
+    animation: slideLeftIn 1.2s forwards ease;
+}
 
+    .imagem-matematica img {
+        width: 100%;
+        border-radius: 25px;
+        animation: floatImage 5s ease-in-out infinite;
+    }
+
+.texto-matematica {
+    transform: translateX(100px);
+    opacity: 0;
+    animation: slideRightIn 1.2s forwards ease 0.5s;
+}
+
+    .texto-matematica h2 {
+        font-size: 3.3rem;
+        margin-bottom: 1rem;
+        color: #333;
+        animation: fadeText 1s forwards ease 1s;
+    }
+
+        .texto-matematica h2 span {
+            color: #4a00e0;
+            background: linear-gradient(45deg, #8e2de2, #4a00e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+    .texto-matematica p {
+        margin: 0.5rem 0;
+        line-height: 1.6;
+        color: #222;
+        animation: fadeText 1s forwards ease 1.3s;
+    }
+
+/* Animações */
 @keyframes slideLeftIn {
-
-  to {
-      transform: translateX(0);
-      opacity: 1;
+    to {
+        transform: translateX(0);
+        opacity: 1;
     }
 }
-
-
 
 @keyframes slideRightIn {
-
-  to {
-      transform: translateX(0);
-      opacity: 1;
+    to {
+        transform: translateX(0);
+        opacity: 1;
     }
 }
-
-
 
 @keyframes fadeText {
-
-  from {
-      opacity: 0;
-      transform: translateY(20px);
+    from {
+        opacity: 0;
+        transform: translateY(20px);
     }
 
-
-
-  to {
-      opacity: 1;
-      transform: translateY(0);
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
-
-
 
 @keyframes floatImage {
-
-  0%,100% {
-      transform: translateY(0) scale(1);
+    0%, 100% {
+        transform: translateY(0) scale(1);
     }
 
+    50% {
+        transform: translateY(-10px) scale(1.01);
+    }
+}
 
+@media (max-width: 1024px) {
+    .hero-menu {
+        flex-direction: column-reverse;
+        text-align: center;
+        padding: 60px 30px;
+    }
 
-  50% {
-      transform: translateY(-10px) scale(1.01);
+    .hero-text {
+        width: 100%;
+        order: 2; /* Coloca o texto depois das imagens */
+    }
+
+    .hero-images {
+        order: 1; /* Coloca as imagens antes do texto */
+        margin-bottom: 40px;
+    }
+
+    .hero-text h1 {
+        font-size: 3em;
+        text-align:center;
+    }
+
+    .hero-text p {
+        width: 100%;
+        font-size: 1.1em;
+    }
+
+    .objetivo-content {
+        flex-direction: column;
+    }
+
+    .objetivo-imagem {
+        order: 1;
+    }
+
+    .objetivo-texto {
+        order: 2;
+    }
+
+    .cards-diferenciais {
+        gap: 4rem;
+    }
+
+    .metodo-clareza {
+        grid-template-columns: 1fr;
+        padding: 4rem 2rem;
+    }
+
+    /* Reseta animações de slide para telas menores */
+    .imagem-matematica, .texto-matematica {
+        transform: none;
+        opacity: 0;
+        animation: fadeUp 1.2s forwards ease;
+    }
+
+    .texto-matematica {
+        animation-delay: 0.3s;
+        text-align: center;
     }
 }
 
 
-
-
-
-/* === MEDIA QUERIES PARA RESPONSIVIDADE === */
-
-
-
-/* Para Tablets e Telas Menores (até 992px) */
-
-@media (max-width: 992px) {
-
-  .hero-text h1 {
-      font-size: 3em;
-
-    }
-
-
-
-  .hero-text p {
-      width: 100%;
-      font-size: 1.1em;
-
-    }
-
-
-
-  .hero-images {
-      grid-template-columns: repeat(2, 150px);
-      gap: 15px;
-      margin-right: 0;
-    }
-
-
-
-  .cards-diferenciais {
-      gap: 2rem;
-    }
-
-
-
-  .metodo-clareza {
-      padding: 4rem 1rem;
-
-    }
-
-
-
-  .texto-matematica h2 {
-      font-size: 2.5rem;
-
-    }
-}
-
-
-
-/* Para Celulares (até 768px) */
-
+/* Telas pequenas - Celulares (até 768px) */
 @media (max-width: 768px) {
-
-  .hero > .hero-menu {
-      flex-direction: column; /* Empilha o texto e as imagens */
-
-      text-align: center;
-      padding: 40px 10px;
-      gap: 30px;
-
+    body {
+        font-size: 14px;
     }
 
-
-
-  .hero-text {
-      width: 100%;
-
+    .hero-menu {
+        padding: 40px 20px;
     }
 
-
-
-  .hero-text p {
-      width: 90%;
-      margin: 0 auto 20px;
-
+    .hero-text h1 {
+        font-size: 2.5em;
+        text-align: center;
     }
 
-
-
-  .hero-images {
-      margin-right: 0;
-
+    .hero-text p {
+        text-align: center;
+        font-size: 1em;
     }
 
-
-
-  .objetivo-content, .metodo-clareza {
-      flex-direction: column; /* Empilha as seções */
-
-      gap: 30px;
-
+    .hero-images {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
     }
 
+        .hero-images img {
+            width: 100%;
+            height: auto;
+        }
 
-
-  .objetivo h2, .titulo-diferencial, .texto-matematica h2 {
-      font-size: 2.2em;
-
+    .objetivo h2, .titulo-diferencial {
+        font-size: 2.2em;
     }
 
-
-
-  .objetivo-imagem img {
-      width: 60%;
-
+    .texto-matematica h2 {
+        font-size: 2.5em;
     }
 
-
-
-  .metodo-clareza {
-      grid-template-columns: 1fr; /* Muda para layout de 1 coluna */
-
-      padding: 3rem 1rem;
-
+    .diferenciais {
+        padding: 4rem 1rem;
     }
 
-
-
-  .imagem-matematica, .texto-matematica {
-
- transform: none;
-      opacity: 1;
-      animation: fadeIn 1s forwards;
-
+    .cards-diferenciais {
+        gap: 3rem;
     }
+
+    .card {
+        width: 90%;
+        padding: 1.2rem;
+    }
+
+        .card h3 {
+            font-size: 1.3rem;
+        }
 }

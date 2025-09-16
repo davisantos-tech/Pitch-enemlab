@@ -1,6 +1,6 @@
 ﻿<header class="header">
-    <div href="/" class="header-menu">
-        <a href="#" style="color: #0891b2;">
+    <div class="header-menu">
+        <a href="/" class="logo-link">
             <div class="logo">
                 <div class="svg-logo">
                     <svg width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -10,18 +10,22 @@
                 <span>nemLab</span>
             </div>
         </a>
-        <nav class="main-nav">
-            <nav>
-                <a href="/" Match="NavLinkMatch.All">Home</a>
-                <a href="/Questoes-gerais">Questões</a>
-                <a href="/Provas-gerais">Provas</a>
-                <a href="/Desempenho">Desempenho</a>
-                <a href="/Meu-perfil">Meu Perfil</a>
 
-                <a href="login" class="perfil-btn">
-                    Entrar/Cadastrar
-                </a>
-            </nav>
+        <button class="menu-toggle" @onclick="ToggleNavMenu" aria-label="Toggle navigation menu">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </button>
+
+        <nav class="main-nav @NavMenuCssClass">
+            <a href="/" Match="NavLinkMatch.All">Home</a>
+            <a href="/Questoes-gerais">Questões</a>
+            <a href="/Provas-gerais">Provas</a>
+            <a href="/Desempenho">Desempenho</a>
+            <a href="/Meu-perfil">Meu Perfil</a>
+            <a href="login" class="perfil-btn">
+                Entrar/Cadastrar
+            </a>
         </nav>
     </div>
 </header>
@@ -35,7 +39,3 @@
         collapseNavMenu = !collapseNavMenu;
     }
 }
-
-
-
-
