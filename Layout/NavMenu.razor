@@ -1,30 +1,28 @@
-﻿<header class="main-header">
-    <div class="header-container">
-
-        <a href="/" class="logo-link">
-            <svg width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8.016 24.5H28V5.83334C28 5.12609 27.719 4.44782 27.219 3.94772C26.7189 3.44762 26.0406 3.16667 25.3333 3.16667H8C6.392 3.16667 4 4.23201 4 7.16667V25.8333C4 28.768 6.392 29.8333 8 29.8333H28V27.1667H8.016C7.4 27.1507 6.66667 26.9067 6.66667 25.8333C6.66667 24.76 7.4 24.516 8.016 24.5ZM10.6667 8.5H22.6667V11.1667H10.6667V8.5Z" fill="currentColor" />
-            </svg>
-            <span>EnemLab</span>
+﻿<header class="header">
+    <div href="/" class="header-menu">
+        <a href="#" style="color: #0891b2;">
+            <div class="logo">
+                <div class="svg-logo">
+                    <svg width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8.016 24.5H28V5.83334C28 5.12609 27.719 4.44782 27.219 3.94772C26.7189 3.44762 26.0406 3.16667 25.3333 3.16667H8C6.392 3.16667 4 4.23201 4 7.16667V25.8333C4 28.768 6.392 29.8333 8 29.8333H28V27.1667H8.016C7.4 27.1507 6.66667 26.9067 6.66667 25.8333C6.66667 24.76 7.4 24.516 8.016 24.5ZM10.6667 8.5H22.6667V11.1667H10.6667V8.5Z" fill="#0891B2" />
+                    </svg>
+                </div>
+                <span>nemLab</span>
+            </div>
         </a>
+        <nav class="main-nav">
+            <nav>
+                <a href="/" Match="NavLinkMatch.All">Home</a>
+                <a href="/Questoes-gerais">Questões</a>
+                <a href="/Provas-gerais">Provas</a>
+                <a href="/Desempenho">Desempenho</a>
+                <a href="/Meu-perfil">Meu Perfil</a>
 
-        <nav class="main-nav @NavMenuCssClass">
-            <NavLink href="/" Match="NavLinkMatch.All">Home</NavLink>
-            <NavLink href="/Questoes-gerais">Questões</NavLink>
-            <NavLink href="/Provas-gerais">Provas</NavLink>
-            <NavLink href="/Desempenho">Desempenho</NavLink>
+                <a href="login" class="perfil-btn">
+                    Entrar/Cadastrar
+                </a>
+            </nav>
         </nav>
-
-        <div class="user-actions">
-            <NavLink href="login" class="login-button">
-                Entrar
-            </NavLink>
-            <button class="hamburger-button" @onclick="ToggleNavMenu">
-                <span class="line"></span>
-                <span class="line"></span>
-                <span class="line"></span>
-            </button>
-        </div>
     </div>
 </header>
 
@@ -37,3 +35,7 @@
         collapseNavMenu = !collapseNavMenu;
     }
 }
+
+
+
+

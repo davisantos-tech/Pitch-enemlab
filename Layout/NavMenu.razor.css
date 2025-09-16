@@ -1,162 +1,84 @@
-/* ESTRUTURA PRINCIPAL DO HEADER */
-.main-header {
-    width: 100%;
-    padding: 1rem 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    animation: fadeDown 0.8s ease-in-out;
+body {
+    text-decoration: none;
 }
 
-.header-container {
-    max-width: 1200px;
-    margin: 0 auto;
+.header {
+    display: flex;
+    justify-content: center;
+}
+
+.header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 0.8rem 1.5rem;
+    background: white;
+    padding: 20px 50px;
     border-radius: 50px;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    margin: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    animation: fadeDown 1s ease forwards;
+    width: 80%;
 }
 
-/* LOGO */
-.logo-link {
+
+
+.logo {
     display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    text-decoration: none;
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: #0e7490; /* Ciano mais escuro para contraste */
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-size: 1.5em;
+    color: #0891b2;
 }
 
-    .logo-link svg {
-        width: 28px;
-        height: 28px;
-    }
+span {
+    padding-left: 18%;
+    margin-top: 3%;
+}
 
-/* NAVEGAÇÃO PRINCIPAL */
+.svg-logo {
+    width: 10px;
+}
+
+
+
 .main-nav {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 30px;
 }
 
+
     .main-nav a {
-        text-decoration: none;
-        color: #374151; /* Cinza escuro */
-        font-weight: 500;
-        padding: 0.6rem 1.2rem;
+        color: #0891b2;
+        font-weight: 600;
+        padding: 8px 15px;
         border-radius: 20px;
-        transition: background-color 0.3s ease, color 0.3s ease;
-        position: relative;
+        transition: background 0.3s ease;
     }
 
         .main-nav a.active {
-            color: #0891B2; /* Ciano */
-            background-color: #ecfeff;
+            background: #ecfeff;
         }
 
-        .main-nav a:not(.active):hover {
-            color: #111827; /* Preto suave */
-            background-color: #f0f9ff;
+        .main-nav a:hover {
+            background: rgb(217, 245, 247);
         }
 
-/* AÇÕES DO USUÁRIO E BOTÃO DE LOGIN */
-.user-actions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.login-button {
-    background: linear-gradient(135deg, #0891b2, #0e7490);
-    color: white !important; /* !important para sobrescrever a cor padrão do NavLink */
-    font-weight: 600;
-    padding: 0.6rem 1.5rem;
+.perfil-btn {
+    background: linear-gradient(135deg, #ecfeff, #0891b2);
+    color: white;
+    padding: 10px 20px;
     border: none;
     border-radius: 20px;
+    font-weight: bold;
+    box-shadow: 2px 2px 50px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.3s ease;
     text-decoration: none;
 }
 
-    .login-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(8, 145, 178, 0.3);
+    .perfil-btn:hover {
+        transform: translateY(-3px);
+        background: linear-gradient(135deg, #ecfeff, #0891b2)
     }
-
-/* BOTÃO HAMBÚRGUER (MOBILE) */
-.hamburger-button {
-    display: none; /* Escondido por padrão em telas grandes */
-    flex-direction: column;
-    justify-content: space-around;
-    width: 2rem;
-    height: 1.5rem;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    z-index: 10;
-}
-
-    .hamburger-button .line {
-        width: 1.5rem;
-        height: 2px;
-        background: #374151;
-        border-radius: 10px;
-        transition: all 0.3s linear;
-    }
-
-/* --- RESPONSIVIDADE (A MÁGICA ACONTECE AQUI) --- */
-@media (max-width: 920px) {
-    .main-nav {
-        display: none; /* Esconde a navegação principal */
-        position: absolute;
-        top: 85px; /* Ajuste conforme a altura do seu header */
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
-        flex-direction: column;
-        background: white;
-        border-radius: 20px;
-        padding: 1.5rem;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    }
-
-        /* Quando o menu não está colapsado (aberto), ele aparece */
-        .main-nav:not(.collapsed) {
-            display: flex;
-        }
-
-        .main-nav a {
-            width: 100%;
-            text-align: center;
-        }
-
-    .hamburger-button {
-        display: flex; /* Mostra o botão hambúrguer */
-    }
-
-    .login-button {
-        display: none; /* Esconde o botão de login principal para dar espaço */
-    }
-}
-
-
-/* Animação do Header */
-@keyframes fadeDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
