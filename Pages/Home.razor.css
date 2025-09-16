@@ -17,11 +17,10 @@
 
 
 
- .hero > .hero-menu {
+.hero-menu {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  gap: 50px;
   padding: 90px 20px; 
 }
 
@@ -82,10 +81,8 @@
 
  .hero-images img {
   width: 100%; /* Imagens fluidas */
-
   height: auto;
   aspect-ratio: 1 / 1; /* Mantém o formato quadrado */
-
   border-radius: 30px;
   object-fit: cover;
   animation: float 4s ease-in-out infinite;
