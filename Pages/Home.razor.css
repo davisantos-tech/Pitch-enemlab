@@ -5,12 +5,27 @@
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
+    overflow-x: hidden; /* Previne scroll horizontal */
 }
 
-
+/* ========================================= */
+/* ===== CONTÊINER PRINCIPAL E SEÇÕES ===== */
+/* ========================================= */
+/* ADIÇÃO: Limita a largura máxima das seções para evitar que se estiquem demais em telas grandes. */
+.hero-menu,
+.objetivo,
+.diferenciais,
+.metodo-clareza {
+    max-width: 1400px; /* Largura máxima para o conteúdo */
+    margin: 0 auto; /* Centraliza o conteúdo */
+    padding-left: 2rem; /* Adiciona espaçamento lateral seguro */
+    padding-right: 2rem;
+}
 
 .hero {
     display: flex;
+    justify-content: center; /* Garante que o .hero-menu dentro dele seja centralizado */
+    width: 100%;
 }
 
 .hero-menu {
@@ -18,10 +33,9 @@
     justify-content: space-around;
     align-items: center;
     gap: 50px;
-    padding: 90px 50px;
+    padding-top: 90px;
+    padding-bottom: 90px;
 }
-
-
 
 .hero-text {
     width: 60%;
@@ -40,8 +54,6 @@
         margin-bottom: 20px;
         width: 65%;
     }
-
-
 
 .study-btn {
     background: linear-gradient(135deg, #ecfeff, #0891b2);
@@ -73,46 +85,13 @@
         animation: float 4s ease-in-out infinite;
     }
 
-@keyframes fadeUp {
-    0% {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeDown {
-    0% {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
-}
-
 .objetivo {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 60px 20px;
+    padding-top: 60px;
+    padding-bottom: 60px;
     color: #2d2d2d;
 }
 
@@ -129,8 +108,7 @@
     align-items: center;
     justify-content: center;
     gap: 40px;
-    max-width: 1100px;
-    width: 100%;
+    width: 100%; /* Ocupa 100% do contêiner pai (.objetivo) */
 }
 
 .objetivo-texto {
@@ -164,108 +142,10 @@
         animation: pulse 4s ease-in-out infinite, float 6s ease-in-out infinite;
     }
 
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.03);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-@keyframes float {
-    0% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-8px);
-    }
-
-    100% {
-        transform: translateY(0);
-    }
-}
-/* Fade de cima */
-@keyframes fadeInTop {
-    0% {
-        opacity: 0;
-        transform: translateY(-50px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Slide da esquerda */
-@keyframes slideInLeft {
-    0% {
-        opacity: 0;
-        transform: translateX(-100vw);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* Slide da direita */
-@keyframes slideInRight {
-    0% {
-        opacity: 0;
-        transform: translateX(100vw);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* Zoom com fade */
-@keyframes zoomInFade {
-    0% {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* --- Aplicando animações com delay --- */
-
-.fade-in-top {
-    animation: fadeInTop 1s ease forwards;
-}
-
-.slide-in-left {
-    animation: slideInLeft 1.2s ease forwards;
-}
-
-.slide-in-right {
-    animation: slideInRight 1.2s ease forwards;
-    animation-delay: 0.4s;
-}
-
-.zoom-in {
-    animation: zoomInFade 1s ease forwards;
-    animation-delay: 0.7s;
-}
-
 .diferenciais {
     text-align: center;
-    padding: 6rem 2rem;
+    padding-top: 6rem;
+    padding-bottom: 6rem;
 }
 
 .titulo-diferencial {
@@ -276,13 +156,6 @@
     animation: fadeSlideDown 1s ease forwards;
 }
 
-.diferenciais-menu {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 50px;
-}
-
 .cards-diferenciais {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -290,7 +163,6 @@
     justify-items: center;
 }
 
-/* Card */
 .card {
     width: 80%;
     height: 100%;
@@ -311,7 +183,6 @@
         box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
     }
 
-/* Imagem */
 .icone-card {
     width: 50px;
     height: 50px;
@@ -319,7 +190,6 @@
     animation: pulseIcon 3s infinite ease-in-out;
 }
 
-/* Título dos cards */
 .card h3 {
     margin: 1rem 0;
     font-size: 1.5rem;
@@ -329,7 +199,6 @@
     font-style: normal;
 }
 
-/* Texto */
 .card p {
     font-size: 0.95rem;
     color: #222;
@@ -339,50 +208,13 @@
     font-style: normal;
 }
 
-/* Animações */
-@keyframes slideInUp {
-    from {
-        transform: translateY(100px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes fadeSlideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes pulseIcon {
-    0%, 100% {
-        transform: scale(1);
-        filter: brightness(1);
-    }
-
-    50% {
-        transform: scale(1.2);
-        filter: brightness(1.4);
-    }
-}
-
 .metodo-clareza {
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
     gap: 3rem;
-    padding: 6rem 2rem;
-    max-width: 1200px;
+    padding-top: 6rem;
+    padding-bottom: 6rem;
     margin: auto;
 }
 
@@ -427,63 +259,221 @@
         animation: fadeText 1s forwards ease 1.3s;
     }
 
-/* Animações */
+/* ========================================= */
+/* ============== ANIMAÇÕES ============== */
+/* ========================================= */
+@keyframes fadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px)
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+@keyframes fadeDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px)
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+@keyframes float {
+    0%,100% {
+        transform: translateY(0)
+    }
+
+    50% {
+        transform: translateY(-10px)
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1)
+    }
+
+    50% {
+        transform: scale(1.03)
+    }
+
+    100% {
+        transform: scale(1)
+    }
+}
+
+@keyframes fadeInTop {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px)
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+@keyframes slideInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-100vw)
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0)
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100vw)
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0)
+    }
+}
+
+@keyframes zoomInFade {
+    0% {
+        opacity: 0;
+        transform: scale(.8)
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1)
+    }
+}
+
+.fade-in-top {
+    animation: fadeInTop 1s ease forwards
+}
+
+.slide-in-left {
+    animation: slideInLeft 1.2s ease forwards
+}
+
+.slide-in-right {
+    animation: slideInRight 1.2s ease forwards;
+    animation-delay: .4s
+}
+
+.zoom-in {
+    animation: zoomInFade 1s ease forwards;
+    animation-delay: .7s
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(100px);
+        opacity: 0
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1
+    }
+}
+
+@keyframes fadeSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+@keyframes pulseIcon {
+    0%,100% {
+        transform: scale(1);
+        filter: brightness(1)
+    }
+
+    50% {
+        transform: scale(1.2);
+        filter: brightness(1.4)
+    }
+}
+
 @keyframes slideLeftIn {
     to {
         transform: translateX(0);
-        opacity: 1;
+        opacity: 1
     }
 }
 
 @keyframes slideRightIn {
     to {
         transform: translateX(0);
-        opacity: 1;
+        opacity: 1
     }
 }
 
 @keyframes fadeText {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(20px)
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0)
     }
 }
 
 @keyframes floatImage {
-    0%, 100% {
-        transform: translateY(0) scale(1);
+    0%,100% {
+        transform: translateY(0) scale(1)
     }
 
     50% {
-        transform: translateY(-10px) scale(1.01);
+        transform: translateY(-10px) scale(1.01)
     }
 }
 
+
+/* ========================================= */
+/* ===== RESPONSIVIDADE TELAS MENORES ===== */
+/* ========================================= */
+
+/* Telas médias - Tablets (até 1024px) */
 @media (max-width: 1024px) {
     .hero-menu {
-        flex-direction: column-reverse;
+        flex-direction: column;
         text-align: center;
         padding: 60px 30px;
     }
 
     .hero-text {
         width: 100%;
-        order: 2; /* Coloca o texto depois das imagens */
+        order: 2;
     }
 
     .hero-images {
-        order: 1; /* Coloca as imagens antes do texto */
+        order: 1;
         margin-bottom: 40px;
     }
 
     .hero-text h1 {
         font-size: 3em;
-        text-align:center;
+        text-align: center;
     }
 
     .hero-text p {
@@ -509,10 +499,10 @@
 
     .metodo-clareza {
         grid-template-columns: 1fr;
-        padding: 4rem 2rem;
+        padding-top: 4rem;
+        padding-bottom: 4rem;
     }
 
-    /* Reseta animações de slide para telas menores */
     .imagem-matematica, .texto-matematica {
         transform: none;
         opacity: 0;
@@ -524,7 +514,6 @@
         text-align: center;
     }
 }
-
 
 /* Telas pequenas - Celulares (até 768px) */
 @media (max-width: 768px) {
@@ -565,7 +554,8 @@
     }
 
     .diferenciais {
-        padding: 4rem 1rem;
+        padding-top: 4rem;
+        padding-bottom: 4rem;
     }
 
     .cards-diferenciais {
@@ -580,4 +570,50 @@
         .card h3 {
             font-size: 1.3rem;
         }
+}
+
+
+/* ========================================= */
+/* === NOVA REGRA PARA TELAS MUITO GRANDES === */
+/* ========================================= */
+@media (min-width: 1600px) {
+
+    /* Aumenta a fonte base para melhor legibilidade */
+    body {
+        font-size: 18px;
+    }
+
+    /* Ajusta o tamanho e espaçamento da seção hero */
+    .hero-text h1 {
+        font-size: 5em; /* Maior */
+    }
+
+    .hero-text p {
+        font-size: 1.3em; /* Maior */
+    }
+
+    .hero-images {
+        grid-template-columns: repeat(2, 250px); /* Imagens maiores */
+        gap: 30px;
+    }
+
+        .hero-images img {
+            width: 250px;
+            height: 250px;
+        }
+
+    /* Aumenta o tamanho dos títulos das seções */
+    .objetivo h2,
+    .titulo-diferencial {
+        font-size: 3.2rem;
+    }
+
+    .texto-matematica h2 {
+        font-size: 4rem;
+    }
+
+    /* Aumenta o espaçamento dos cards */
+    .cards-diferenciais {
+        gap: 9rem;
+    }
 }
